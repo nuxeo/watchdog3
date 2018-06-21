@@ -5,6 +5,8 @@ Python API and shell utilities to monitor file system events.
 This is a fork of http://github.com/gorakhargosh/watchdog for Python 3 and intended for `Nuxeo Drive`_.
 This is not an official Watchdog nextgen repository but it will be kept alive by Nuxeo and PR are welcome.
 
+This is a drop-in replacement of the original watchdog module. Only thee module name changes at installation time.
+
 
 Example API Usage
 -----------------
@@ -120,13 +122,13 @@ Installing from PyPI using ``pip``:
     
 .. code-block:: bash
 
-    $ pip install watchdog
+    $ pip install watchdog3
 
 Installing from PyPI using ``easy_install``:
     
 .. code-block:: bash
 
-    $ easy_install watchdog
+    $ easy_install watchdog3
 
 Installing from source:
     
