@@ -3,6 +3,7 @@
 #
 # Copyright 2011 Yesudeep Mangalapilly <yesudeep@gmail.com>
 # Copyright 2012 Google, Inc.
+# Copyright 2018 Nuxeo.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -102,10 +103,10 @@ setup(name="watchdog",
       version=version.VERSION_STRING,
       description="Filesystem events monitoring",
       long_description=readme + '\n\n' + changelog,
-      author="Yesudeep Mangalapilly",
-      author_email="yesudeep@gmail.com",
+      author='Nuxeo',
+      author_email='maintainers-python@nuxeo.com',
       license="Apache License 2.0",
-      url="http://github.com/gorakhargosh/watchdog",
+      url='https://github.com/nuxeo/watchdog3',
       keywords=' '.join([
           'python',
           'filesystem',
@@ -131,13 +132,8 @@ setup(name="watchdog",
           'Operating System :: Microsoft :: Windows :: Windows NT/2000',
           'Operating System :: OS Independent',
           'Programming Language :: Python',
-          'Programming Language :: Python :: 2.6',
-          'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.2',
-          'Programming Language :: Python :: 3.3',
-          'Programming Language :: Python :: 3.4',
-          'Programming Language :: Python :: 3.5',
+          'Programming Language :: Python :: 3.6',
           'Programming Language :: Python :: Implementation :: PyPy',
           'Programming Language :: C',
           'Topic :: Software Development :: Libraries',

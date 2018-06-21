@@ -1,13 +1,13 @@
 .. Global includes, substitutions, and common links.
 
-.. |author_name| replace:: Yesudeep Mangalapilly
-.. |author_email| replace:: yesudeep@gmail.com
-.. |copyright| replace:: Copyright 2012 Google, Inc.
+.. |author_name| replace:: Nuxeo
+.. |author_email| replace:: maintainers-python@nuxeo.com
+.. |copyright| replace:: Copyright 2018 Nuxeo.
 .. |project_name| replace:: ``watchdog``
-.. |project_version| replace:: 0.8.3
+.. |project_version| replace:: 0.8.4
 
-.. _issue tracker: http://github.com/gorakhargosh/watchdog/issues
-.. _code repository: http://github.com/gorakhargosh/watchdog
+.. _issue tracker: https://github.com/nuxeo/watchdog3/issues
+.. _code repository: https://github.com/nuxeo/watchdog3
 .. _mailing list: http://groups.google.com/group/watchdog-python
 
 .. _kqueue: http://www.freebsd.org/cgi/man.cgi?query=kqueue&sektion=2
@@ -18,8 +18,8 @@
 .. _GetQueuedCompletionStatus: http://msdn.microsoft.com/en-us/library/aa364986(v=VS.85).aspx
 .. _CreateIoCompletionPort: http://msdn.microsoft.com/en-us/library/aa363862(v=VS.85).aspx
 
-.. _argh: http://pypi.python.org/pypi/argh
-.. _argparse: http://pypi.python.org/pypi/argparse
+.. _argh: http://pypi.org/project/argh
+.. _argparse: http://pypi.org/project/argparse
 .. _coverage: http://nedbatchelder.com/code/coverage/
 .. _file.monitor: http://github.com/pke/file.monitor
 .. _fsmonitor: http://github.com/shaurz/fsmonitor
@@ -31,14 +31,14 @@
 .. _jnotify: http://jnotify.sourceforge.net/
 .. _LibYAML: http://pyyaml.org/wiki/LibYAML
 .. _nose: http://nose.readthedocs.org/en/latest/
-.. _pip: http://pypi.python.org/pypi/pip
+.. _pip: http://pypi.org/project/pip
 .. _pnotify: http://mark.heily.com/pnotify
 .. _pyfilesystem: http://code.google.com/p/pyfilesystem
 .. _pyinotify: http://github.com/seb-m/pyinotify
 .. _Python: http://python.org
 .. _pywin32: http://sourceforge.net/projects/pywin32/
 .. _PyYAML: http://www.pyyaml.org/
-.. _select_backport: http://pypi.python.org/pypi/select_backport/
+.. _select_backport: http://pypi.org/project/select_backport/
 .. _sphinx: http://sphinx.pocoo.org/
 .. _treewalker: http://github.com/jbd/treewatcher
 .. _unison fsmonitor: https://webdav.seas.upenn.edu/viewvc/unison/trunk/src/fsmonitor.py?view=markup&pathrev=471

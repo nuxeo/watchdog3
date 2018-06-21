@@ -2,6 +2,9 @@ Watchdog
 ========
 Python API and shell utilities to monitor file system events.
 
+This is a fork of http://github.com/gorakhargosh/watchdog for Python 3 and intended for `Nuxeo Drive`_.
+This is not an official Watchdog nextgen repository but it will be kept alive by Nuxeo and PR are welcome.
+
 
 Example API Usage
 -----------------
@@ -226,6 +229,8 @@ Copyright 2011 `Yesudeep Mangalapilly`_.
 
 Copyright 2012 Google, Inc.
 
+Copyright 2018 Nuxeo.
+
 Project `source code`_ is available at Github. Please report bugs and file
 enhancement requests at the `issue tracker`_.
 
@@ -246,15 +251,16 @@ to do:
 * pyfilesystem_
 
 .. links:
+.. _Nuxeo Drive: https://github.com/nuxeo/nuxeo-drive
 .. _Yesudeep Mangalapilly: yesudeep@gmail.com
-.. _source code: http://github.com/gorakhargosh/watchdog
-.. _issue tracker: http://github.com/gorakhargosh/watchdog/issues
+.. _source code: https://github.com/nuxeo/watchdog3
+.. _issue tracker: https://github.com/nuxeo/watchdog3/issues
 .. _Apache License, version 2.0: http://www.apache.org/licenses/LICENSE-2.0
 .. _documentation: http://packages.python.org/watchdog/
 .. _stackoverflow: http://stackoverflow.com/questions/tagged/python-watchdog
 .. _mailing list: http://groups.google.com/group/watchdog-python
-.. _repository: http://github.com/gorakhargosh/watchdog
-.. _issue tracker: http://github.com/gorakhargosh/watchdog/issues
+.. _repository: https://github.com/nuxeo/watchdog3
+.. _issue tracker: https://github.com/nuxeo/watchdog3/issues
 
 .. _homebrew: http://mxcl.github.com/homebrew/
 .. _select_backport: http://pypi.python.org/pypi/select_backport

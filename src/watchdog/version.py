@@ -3,6 +3,7 @@
 #
 # Copyright 2011 Yesudeep Mangalapilly <yesudeep@gmail.com>
 # Copyright 2012 Google, Inc.
+# Copyright 2018 Nuxeo.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@
 # ``docs/source/global.rst.inc`` file as well.
 VERSION_MAJOR = 0
 VERSION_MINOR = 8
-VERSION_BUILD = 3
+VERSION_BUILD = 4
 VERSION_INFO = (VERSION_MAJOR, VERSION_MINOR, VERSION_BUILD)
 VERSION_STRING = "%d.%d.%d" % VERSION_INFO
 

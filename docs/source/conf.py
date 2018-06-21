@@ -24,8 +24,8 @@ sys.path.insert(0, SRC_DIR_PATH)
 import watchdog.version
 
 PROJECT_NAME = 'watchdog'
-AUTHOR_NAME = 'Yesudeep Mangalapilly'
-COPYRIGHT = '2010, Yesudeep Mangalapilly'
+AUTHOR_NAME = 'Nuxeo'
+COPYRIGHT = '2018, Nuxeo'
 
 
 # -- General configuration -----------------------------------------------------

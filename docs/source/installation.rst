@@ -32,7 +32,7 @@ Installing from the code repository
 
 ::
 
-    $ git clone --recursive git://github.com/gorakhargosh/watchdog.git
+    $ git clone --recursive git://github.com/nuxeo/watchdog3.git
     $ cd watchdog
     $ python setup.py install
 
