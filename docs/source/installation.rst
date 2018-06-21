@@ -50,8 +50,6 @@ using.
 +=====================+=============+=============+=============+=============+
 | XCode_              |             |             |     Yes     |             |
 +---------------------+-------------+-------------+-------------+-------------+
-| PyYAML_             |     Yes     |     Yes     |     Yes     |     Yes     |
-+---------------------+-------------+-------------+-------------+-------------+
 | argh_               |     Yes     |     Yes     |     Yes     |     Yes     |
 +---------------------+-------------+-------------+-------------+-------------+
 | argparse_           |     Yes     |     Yes     |     Yes     |     Yes     |
@@ -61,21 +59,6 @@ using.
 +---------------------+-------------+-------------+-------------+-------------+
 | pathtools_          |     Yes     |     Yes     |     Yes     |     Yes     |
 +---------------------+-------------+-------------+-------------+-------------+
-
-
-Installing Dependencies
-~~~~~~~~~~~~~~~~~~~~~~~
-The ``watchmedo`` script depends on PyYAML_ which links with LibYAML_.
-On Mac OS X, you can use homebrew_ to install LibYAML::
-
-    brew install libyaml
-
-On Linux, use your favorite package manager to install LibYAML. Here's how you
-do it on Ubuntu::
-
-    sudo aptitude install libyaml-dev
-
-On Windows, please install PyYAML_ using the binaries they provide.
 
 
 Supported Platforms (and Caveats)

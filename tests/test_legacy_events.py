@@ -18,9 +18,8 @@
 # limitations under the License.
 
 
-from tests import unittest
+import unittest
 
-from utils import list_attributes
 from watchdog.utils import has_attribute
 from pathtools.patterns import filter_paths
 

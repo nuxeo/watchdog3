@@ -19,16 +19,14 @@
 
 
 import os
-import sys
-from tests import unittest
+import unittest
 
-try:
-    import queue  # IGNORE:F0401
-except ImportError:
-    import Queue as queue  # IGNORE:F0401
+import pytest
+
+import queue
 
 from time import sleep
-from tests.shell import (
+from .shell import (
     mkdir,
     mkdtemp,
     touch,
@@ -143,6 +141,7 @@ class TestPollingEmitter(unittest.TestCase):
 
         self.assertEqual(expected, got)
 
+    @pytest.mark.skip('WATCHDOG-5')
     def test_delete_watched_dir(self):
         SLEEP_TIME = 0.4
         self.emitter.start()
@@ -157,7 +156,6 @@ class TestPollingEmitter(unittest.TestCase):
         # A multiset! Python's collections.Counter class seems appropriate.
         expected = set(
             [
-
                 DirDeletedEvent(os.path.dirname(p(''))),
             ]
         )

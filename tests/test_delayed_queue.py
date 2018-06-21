@@ -14,14 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from time import time
+from time import monotonic
 from watchdog.utils.delayed_queue import DelayedQueue
 
 
 def test_get():
     q = DelayedQueue(2)
     q.put("")
-    inserted = time()
+    inserted = monotonic()
     q.get()
-    elapsed = time() - inserted
+    elapsed = monotonic() - inserted
     assert 2.01 > elapsed > 1.99

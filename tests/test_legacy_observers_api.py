@@ -18,17 +18,11 @@
 # limitations under the License.
 
 import time
-from tests import unittest
+import unittest
 
-from watchdog.observers.api import (
-    BaseObserver,
-    EventEmitter,
-    ObservedWatch,
-    EventDispatcher,
-    EventQueue
-)
-
-from watchdog.events import LoggingEventHandler, FileModifiedEvent
+from watchdog.events import FileModifiedEvent, LoggingEventHandler
+from watchdog.observers.api import (BaseObserver, EventDispatcher, EventEmitter,
+                                    EventQueue, ObservedWatch)
 
 
 class TestObservedWatch(unittest.TestCase):

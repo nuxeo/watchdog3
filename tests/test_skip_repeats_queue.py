@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from tests import unittest
+import unittest
 from watchdog.utils.bricks import SkipRepeatsQueue
 
 

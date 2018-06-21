@@ -19,29 +19,22 @@
 
 
 import os
-from tests import unittest
-
-try:
-    import queue  # IGNORE:F0401
-except ImportError:
-    import Queue as queue  # IGNORE:F0401
-
+import queue
+import unittest
 from time import sleep
-
-from tests.shell import (
-    mkdir,
-    mkdtemp,
-    mv
-)
-
 
 from watchdog.events import (
     DirCreatedEvent,
     DirMovedEvent,
 )
-
 from watchdog.observers.api import ObservedWatch
 from watchdog.utils import platform
+
+from .shell import (
+    mkdir,
+    mkdtemp,
+    mv
+)
 
 if platform.is_windows():
     from watchdog.observers.read_directory_changes import WindowsApiEmitter as Emitter

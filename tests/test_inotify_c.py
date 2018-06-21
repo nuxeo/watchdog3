@@ -1,14 +1,17 @@
 from __future__ import unicode_literals
-import os
-import pytest
-import logging
+
 import contextlib
-from tests import Queue
+import logging
+import os
 from functools import partial
-from .shell import rm, mkdtemp
-from watchdog.utils import platform
+from queue import Queue
+
+import pytest
 from watchdog.events import DirCreatedEvent, DirDeletedEvent, DirModifiedEvent
 from watchdog.observers.api import ObservedWatch
+from watchdog.utils import platform
+
+from .shell import mkdtemp, rm
 
 if platform.is_linux():
     from watchdog.observers.inotify import InotifyFullEmitter, InotifyEmitter

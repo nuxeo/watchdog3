@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Copyright 2011 Yesudeep Mangalapilly <yesudeep@gmail.com>
-# Copyright 2012 Google, Inc.
-# Copyright 2018 Nuxeo.
+# Copyright 2014 Thomas Amland <thomas.amland@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,16 +15,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+from functools import partial
 
-from __future__ import with_statement
-import collections
+import pytest
+
+from .shell import mkdtemp, rm
 
 
-def list_attributes(o, only_public=True):
-    if only_public:
-        def isattribute(o, attribute):
-            return not (attribute.startswith('_') or isinstance(getattr(o, attribute), collections.Callable))
-    else:
-        def isattribute(o, attribute):
-            return not isinstance(getattr(o, attribute), collections.Callable)
-    return [attribute for attribute in dir(o) if isattribute(o, attribute)]
+@pytest.fixture()
+def tmpdir(request):
+    path = os.path.realpath(mkdtemp())
+    def finalizer():
+        rm(path, recursive=True)
+    request.addfinalizer(finalizer)
+    return path
+
+
+@pytest.fixture()
+def p(tmpdir, *args):
+    """
+    Convenience function to join the temporary directory path
+    with the provided arguments.
+    """
+    return partial(os.path.join, tmpdir)

@@ -3,6 +3,12 @@
 API changes
 -----------
 
+0.8.4
+~~~~~
+
+- `WATCHDOG-1 <https://jira.nuxeo.com/browse/WATCHDOG-1>`__: Ensure ``InotifyEvent.name`` is decoded.
+
+
 0.8.2
 ~~~~~
 

@@ -25,11 +25,10 @@
 
 from __future__ import with_statement
 
-import os.path
-import tempfile
-import shutil
 import errno
-import time
+import os.path
+import shutil
+import tempfile
 
 
 # def tree(path='.', show_files=False):

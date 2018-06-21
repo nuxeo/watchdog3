@@ -74,27 +74,29 @@ class PyTest(TestCommand):
         self.test_args = [
             '--cov=' + SRC_DIR,
             '--cov-report=term-missing',
-            'tests']
+            '--showlocals',
+            '--strict',
+            '--failed-first',
+            '--no-print-logs',
+            '-r fE',
+            '-v',
+            'tests',
+        ]
         self.test_suite = True
+
     def run_tests(self):
         import pytest
         errno = pytest.main(self.test_args)
         sys.exit(errno)
 
-tests_require=['pytest', 'pytest-cov', 'pytest-timeout >=0.3']
-if sys.version_info < (2, 7, 0):
-    tests_require.append('unittest2')
-
-install_requires = ['PyYAML >=3.10', 'argh >=0.24.1', 'pathtools >=0.1.1']
-if sys.version_info < (2, 7, 0):
-    # argparse is merged into Python 2.7 in the Python 2x series
-    # and Python 3.2 in the Python 3x series.
-    install_requires.append('argparse >=1.1')
-    if any([key in sys.platform for key in ['bsd', 'darwin']]):
-        # Python 2.6 and below have the broken/non-existent kqueue implementations
-        # in the select module. This backported patch adds one from Python 2.7,
-        # which works.
-        install_requires.append('select_backport >=0.2')
+tests_require = ['pytest', 'pytest-cov', 'pytest-timeout>=0.3']
+install_requires = [
+    'pyaml>=17.12.1',
+    'argh>=0.24.1',
+    'pathtools>=0.1.1',
+    'pyobjc-framework-Cocoa>=4.2.2 ; sys.platform == "darwin"',
+    'pyobjc-framework-FSEvents>=4.2.2 ; sys.platform == "darwin"',
+]
 
 with open('README.rst') as f:
     readme = f.read()

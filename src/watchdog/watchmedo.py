@@ -25,7 +25,7 @@
 
 import os.path
 import sys
-import yaml
+import pyaml
 import time
 import logging
 
@@ -83,10 +83,9 @@ def load_config(tricks_file_pathname):
     :returns:
         A dictionary of configuration information.
     """
-    f = open(tricks_file_pathname, 'rb')
-    content = f.read()
-    f.close()
-    config = yaml.load(content)
+    with open(tricks_file_pathname, 'rb') as f:
+        content = f.read()
+    config = pyaml.safe_load(content)
     return config
 
 
@@ -247,7 +246,7 @@ def tricks_generate_yaml(args):
     content = output.getvalue()
     output.close()
 
-    header = yaml.dump({CONFIG_KEY_PYTHON_PATH: python_paths})
+    header = pyaml.safe_dump({CONFIG_KEY_PYTHON_PATH: python_paths})
     header += "%s:\n" % CONFIG_KEY_TRICKS
     if args.append_to_file is None:
         # Output to standard output.
@@ -554,6 +553,7 @@ def auto_restart(args):
 
 epilog = """Copyright 2011 Yesudeep Mangalapilly <yesudeep@gmail.com>.
 Copyright 2012 Google, Inc.
+Copyright 2018 Nuxeo.
 
 Licensed under the terms of the Apache license, version 2.0. Please see
 LICENSE in the source code for more information."""

@@ -101,6 +101,7 @@ distclean: clean
 		parts/ \
 		MANIFEST \
 		htmlcov/ \
+		.pytest_cache/ \
 		.pythoscope/ \
 		.coverage \
 		.installed.cfg

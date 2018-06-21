@@ -18,8 +18,7 @@ from __future__ import unicode_literals
 import os
 import time
 import pytest
-import logging
-from tests import Queue
+from queue import Queue
 from functools import partial
 from .shell import mkdir, touch, mv, rm, mkdtemp
 from watchdog.utils import platform
@@ -30,9 +29,9 @@ from watchdog.observers.api import ObservedWatch
 pytestmark = pytest.mark.skipif(not platform.is_linux() and not platform.is_darwin(), reason="")
 if platform.is_linux():
     from watchdog.observers.inotify import InotifyEmitter as Emitter
+    from watchdog.observers.inotify import InotifyFullEmitter
 elif platform.is_darwin():
     from watchdog.observers.fsevents2 import FSEventsEmitter as Emitter
-from watchdog.observers.inotify import InotifyFullEmitter
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -69,7 +68,8 @@ def teardown_function(function):
 
 def test_create():
     start_watching()
-    open(p('a'), 'a').close()
+    with open(p('a'), 'a'):
+        pass
 
     event = event_queue.get(timeout=5)[0]
     assert event.src_path == p('a')

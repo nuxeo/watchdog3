@@ -137,26 +137,6 @@ Installing from source:
     $ python setup.py install
 
 
-Installation Caveats
-~~~~~~~~~~~~~~~~~~~~
-The ``watchmedo`` script depends on PyYAML_ which links with LibYAML_,
-which brings a performance boost to the PyYAML parser. However, installing
-LibYAML_ is optional but recommended. On Mac OS X, you can use homebrew_
-to install LibYAML:
-
-.. code-block:: bash
-
-    $ brew install libyaml
-
-On Linux, use your favorite package manager to install LibYAML. Here's how you
-do it on Ubuntu:
-    
-.. code-block:: bash
-
-    $ sudo aptitude install libyaml-dev
-
-On Windows, please install PyYAML_ using the binaries they provide.
-
 Documentation
 -------------
 You can browse the latest release documentation_ online.
@@ -219,7 +199,6 @@ Dependencies
 2. pathtools_
 3. select_backport_ (select.kqueue replacement for 2.6 on BSD/Mac OS X)
 4. XCode_ (only on Mac OS X)
-5. PyYAML_ (only for ``watchmedo`` script)
 6. argh_ (only for ``watchmedo`` script)
 
 
@@ -267,9 +246,7 @@ to do:
 .. _homebrew: http://mxcl.github.com/homebrew/
 .. _select_backport: http://pypi.python.org/pypi/select_backport
 .. _argh: http://pypi.python.org/pypi/argh
-.. _PyYAML: http://www.pyyaml.org/
 .. _XCode: http://developer.apple.com/technologies/tools/xcode.html
-.. _LibYAML: http://pyyaml.org/wiki/LibYAML
 .. _pathtools: http://github.com/gorakhargosh/pathtools
 
 .. _pnotify: http://mark.heily.com/pnotify
