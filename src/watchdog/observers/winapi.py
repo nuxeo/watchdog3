@@ -94,13 +94,14 @@ ERROR_OPERATION_ABORTED = 995
 
 
 class OVERLAPPED(ctypes.Structure):
-    _fields_ = [('Internal', LPVOID),
-                ('InternalHigh', LPVOID),
-                ('Offset', ctypes.wintypes.DWORD),
-                ('OffsetHigh', ctypes.wintypes.DWORD),
-                ('Pointer', LPVOID),
-                ('hEvent', ctypes.wintypes.HANDLE),
-                ]
+    _fields_ = [
+        ("Internal", LPVOID),
+        ("InternalHigh", LPVOID),
+        ("Offset", ctypes.wintypes.DWORD),
+        ("OffsetHigh", ctypes.wintypes.DWORD),
+        ("Pointer", LPVOID),
+        ("hEvent", ctypes.wintypes.HANDLE),
+    ]
 
 
 def _errcheck_bool(value, func, args):
@@ -134,7 +135,7 @@ ReadDirectoryChangesW.argtypes = (
     ctypes.wintypes.DWORD,  # dwNotifyFilter
     ctypes.POINTER(ctypes.wintypes.DWORD),  # lpBytesReturned
     ctypes.POINTER(OVERLAPPED),  # lpOverlapped
-    LPVOID  # FileIOCompletionRoutine # lpCompletionRoutine
+    LPVOID,  # FileIOCompletionRoutine # lpCompletionRoutine
 )
 
 CreateFileW = ctypes.windll.kernel32.CreateFileW
@@ -147,21 +148,19 @@ CreateFileW.argtypes = (
     LPVOID,  # lpSecurityAttributes
     ctypes.wintypes.DWORD,  # dwCreationDisposition
     ctypes.wintypes.DWORD,  # dwFlagsAndAttributes
-    ctypes.wintypes.HANDLE  # hTemplateFile
+    ctypes.wintypes.HANDLE,  # hTemplateFile
 )
 
 CloseHandle = ctypes.windll.kernel32.CloseHandle
 CloseHandle.restype = ctypes.wintypes.BOOL
-CloseHandle.argtypes = (
-    ctypes.wintypes.HANDLE,  # hObject
-)
+CloseHandle.argtypes = (ctypes.wintypes.HANDLE,)  # hObject
 
 CancelIoEx = ctypes.windll.kernel32.CancelIoEx
 CancelIoEx.restype = ctypes.wintypes.BOOL
 CancelIoEx.errcheck = _errcheck_bool
 CancelIoEx.argtypes = (
     ctypes.wintypes.HANDLE,  # hObject
-    ctypes.POINTER(OVERLAPPED)  # lpOverlapped
+    ctypes.POINTER(OVERLAPPED),  # lpOverlapped
 )
 
 CreateEvent = ctypes.windll.kernel32.CreateEventW
@@ -177,9 +176,7 @@ CreateEvent.argtypes = (
 SetEvent = ctypes.windll.kernel32.SetEvent
 SetEvent.restype = ctypes.wintypes.BOOL
 SetEvent.errcheck = _errcheck_bool
-SetEvent.argtypes = (
-    ctypes.wintypes.HANDLE,  # hEvent
-)
+SetEvent.argtypes = (ctypes.wintypes.HANDLE,)  # hEvent
 
 WaitForSingleObjectEx = ctypes.windll.kernel32.WaitForSingleObjectEx
 WaitForSingleObjectEx.restype = ctypes.wintypes.DWORD
@@ -223,11 +220,14 @@ PostQueuedCompletionStatus.argtypes = (
 
 
 class FILE_NOTIFY_INFORMATION(ctypes.Structure):
-    _fields_ = [("NextEntryOffset", ctypes.wintypes.DWORD),
-                ("Action", ctypes.wintypes.DWORD),
-                ("FileNameLength", ctypes.wintypes.DWORD),
-                #("FileName", (ctypes.wintypes.WCHAR * 1))]
-                ("FileName", (ctypes.c_char * 1))]
+    _fields_ = [
+        ("NextEntryOffset", ctypes.wintypes.DWORD),
+        ("Action", ctypes.wintypes.DWORD),
+        ("FileNameLength", ctypes.wintypes.DWORD),
+        # ("FileName", (ctypes.wintypes.WCHAR * 1))]
+        ("FileName", (ctypes.c_char * 1)),
+    ]
+
 
 LPFNI = ctypes.POINTER(FILE_NOTIFY_INFORMATION)
 
@@ -236,13 +236,11 @@ LPFNI = ctypes.POINTER(FILE_NOTIFY_INFORMATION)
 # the win32 API functions.
 WATCHDOG_FILE_FLAGS = FILE_FLAG_BACKUP_SEMANTICS
 WATCHDOG_FILE_SHARE_FLAGS = reduce(
-    lambda x, y: x | y, [
-        FILE_SHARE_READ,
-        FILE_SHARE_WRITE,
-        FILE_SHARE_DELETE,
-    ])
+    lambda x, y: x | y, [FILE_SHARE_READ, FILE_SHARE_WRITE, FILE_SHARE_DELETE]
+)
 WATCHDOG_FILE_NOTIFY_FLAGS = reduce(
-    lambda x, y: x | y, [
+    lambda x, y: x | y,
+    [
         FILE_NOTIFY_CHANGE_FILE_NAME,
         FILE_NOTIFY_CHANGE_DIR_NAME,
         FILE_NOTIFY_CHANGE_ATTRIBUTES,
@@ -251,19 +249,20 @@ WATCHDOG_FILE_NOTIFY_FLAGS = reduce(
         FILE_NOTIFY_CHANGE_SECURITY,
         FILE_NOTIFY_CHANGE_LAST_ACCESS,
         FILE_NOTIFY_CHANGE_CREATION,
-    ])
+    ],
+)
 
 BUFFER_SIZE = 2048
 
-    
+
 def _parse_event_buffer(readBuffer, nBytes):
     results = []
     while nBytes > 0:
         fni = ctypes.cast(readBuffer, LPFNI)[0]
         ptr = ctypes.addressof(fni) + FILE_NOTIFY_INFORMATION.FileName.offset
-        #filename = ctypes.wstring_at(ptr, fni.FileNameLength)
+        # filename = ctypes.wstring_at(ptr, fni.FileNameLength)
         filename = ctypes.string_at(ptr, fni.FileNameLength)
-        results.append((fni.Action, filename.decode('utf-16')))
+        results.append((fni.Action, filename.decode("utf-16")))
         numToSkip = fni.NextEntryOffset
         if numToSkip <= 0:
             break
@@ -274,17 +273,24 @@ def _parse_event_buffer(readBuffer, nBytes):
 
 def get_directory_handle(path):
     """Returns a Windows handle to the specified directory path."""
-    return CreateFileW(path, FILE_LIST_DIRECTORY, WATCHDOG_FILE_SHARE_FLAGS,
-                       None, OPEN_EXISTING, WATCHDOG_FILE_FLAGS, None)
+    return CreateFileW(
+        path,
+        FILE_LIST_DIRECTORY,
+        WATCHDOG_FILE_SHARE_FLAGS,
+        None,
+        OPEN_EXISTING,
+        WATCHDOG_FILE_FLAGS,
+        None,
+    )
 
 
 def close_directory_handle(handle):
     try:
         CancelIoEx(handle, None)  # force ReadDirectoryChangesW to return
-        CloseHandle(handle)       # close directory handle
+        CloseHandle(handle)  # close directory handle
     except WindowsError:
         try:
-            CloseHandle(handle)   # close directory handle
+            CloseHandle(handle)  # close directory handle
         except:
             return
 
@@ -297,10 +303,16 @@ def read_directory_changes(handle, recursive):
     event_buffer = ctypes.create_string_buffer(BUFFER_SIZE)
     nbytes = ctypes.wintypes.DWORD()
     try:
-        ReadDirectoryChangesW(handle, ctypes.byref(event_buffer),
-                              len(event_buffer), recursive,
-                              WATCHDOG_FILE_NOTIFY_FLAGS,
-                              ctypes.byref(nbytes), None, None)
+        ReadDirectoryChangesW(
+            handle,
+            ctypes.byref(event_buffer),
+            len(event_buffer),
+            recursive,
+            WATCHDOG_FILE_NOTIFY_FLAGS,
+            ctypes.byref(nbytes),
+            None,
+            None,
+        )
     except WindowsError as e:
         if e.winerror == ERROR_OPERATION_ABORTED:
             return [], 0
@@ -318,29 +330,32 @@ class WinAPINativeEvent(object):
     def __init__(self, action, src_path):
         self.action = action
         self.src_path = src_path
-    
+
     @property
     def is_added(self):
         return self.action == FILE_ACTION_CREATED
-    
+
     @property
     def is_removed(self):
         return self.action == FILE_ACTION_REMOVED
-    
+
     @property
     def is_modified(self):
         return self.action == FILE_ACTION_MODIFIED
-    
+
     @property
     def is_renamed_old(self):
         return self.action == FILE_ACTION_RENAMED_OLD_NAME
-    
+
     @property
     def is_renamed_new(self):
         return self.action == FILE_ACTION_RENAMED_NEW_NAME
-    
+
     def __repr__(self):
-        return ("<WinAPINativeEvent: action=%d, src_path=%r>" % (self.action, self.src_path))
+        return "<WinAPINativeEvent: action=%d, src_path=%r>" % (
+            self.action,
+            self.src_path,
+        )
 
 
 def read_events(handle, recursive):

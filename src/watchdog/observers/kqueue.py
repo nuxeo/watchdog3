@@ -88,7 +88,7 @@ import stat
 import os
 
 # See the notes for this module in the documentation above ^.
-#import select
+# import select
 # if not has_attribute(select, 'kqueue') or sys.version_info < (2, 7, 0):
 if sys.version_info < (2, 7, 0):
     import select_backport as select
@@ -101,7 +101,7 @@ from watchdog.observers.api import (
     BaseObserver,
     EventEmitter,
     DEFAULT_OBSERVER_TIMEOUT,
-    DEFAULT_EMITTER_TIMEOUT
+    DEFAULT_EMITTER_TIMEOUT,
 )
 
 from watchdog.utils.dirsnapshot import DirectorySnapshot
@@ -117,7 +117,7 @@ from watchdog.events import (
     FileModifiedEvent,
     EVENT_TYPE_MOVED,
     EVENT_TYPE_DELETED,
-    EVENT_TYPE_CREATED
+    EVENT_TYPE_CREATED,
 )
 
 # Maximum number of events to process.
@@ -134,13 +134,13 @@ else:
 WATCHDOG_KQ_FILTER = select.KQ_FILTER_VNODE
 WATCHDOG_KQ_EV_FLAGS = select.KQ_EV_ADD | select.KQ_EV_ENABLE | select.KQ_EV_CLEAR
 WATCHDOG_KQ_FFLAGS = (
-    select.KQ_NOTE_DELETE |
-    select.KQ_NOTE_WRITE |
-    select.KQ_NOTE_EXTEND |
-    select.KQ_NOTE_ATTRIB |
-    select.KQ_NOTE_LINK |
-    select.KQ_NOTE_RENAME |
-    select.KQ_NOTE_REVOKE
+    select.KQ_NOTE_DELETE
+    | select.KQ_NOTE_WRITE
+    | select.KQ_NOTE_EXTEND
+    | select.KQ_NOTE_ATTRIB
+    | select.KQ_NOTE_LINK
+    | select.KQ_NOTE_RENAME
+    | select.KQ_NOTE_REVOKE
 )
 
 # Flag tests.
@@ -344,10 +344,12 @@ class KeventDescriptor(object):
         self._path = absolute_path(path)
         self._is_directory = is_directory
         self._fd = os.open(path, WATCHDOG_OS_OPEN_FLAGS)
-        self._kev = select.kevent(self._fd,
-                                  filter=WATCHDOG_KQ_FILTER,
-                                  flags=WATCHDOG_KQ_EV_FLAGS,
-                                  fflags=WATCHDOG_KQ_FFLAGS)
+        self._kev = select.kevent(
+            self._fd,
+            filter=WATCHDOG_KQ_FILTER,
+            flags=WATCHDOG_KQ_EV_FLAGS,
+            fflags=WATCHDOG_KQ_FFLAGS,
+        )
 
     @property
     def fd(self):
@@ -396,8 +398,10 @@ class KeventDescriptor(object):
         return hash(self.key)
 
     def __repr__(self):
-        return "<KeventDescriptor: path=%s, is_directory=%s>"\
-            % (self.path, self.is_directory)
+        return "<KeventDescriptor: path=%s, is_directory=%s>" % (
+            self.path,
+            self.is_directory,
+        )
 
 
 class KqueueEmitter(EventEmitter):
@@ -457,9 +461,9 @@ class KqueueEmitter(EventEmitter):
         def walker_callback(path, stat_info, self=self):
             self._register_kevent(path, stat.S_ISDIR(stat_info.st_mode))
 
-        self._snapshot = DirectorySnapshot(watch.path,
-                                           watch.is_recursive,
-                                           walker_callback)
+        self._snapshot = DirectorySnapshot(
+            watch.path, watch.is_recursive, walker_callback
+        )
 
     def _register_kevent(self, path, is_directory):
         """
@@ -480,7 +484,7 @@ class KqueueEmitter(EventEmitter):
                 # and then quickly deleted before we could open
                 # a descriptor for it. Therefore, simply queue a sequence
                 # of created and deleted events for the path.
-                #path = absolute_path(path)
+                # path = absolute_path(path)
                 # if is_directory:
                 #    self.queue_event(DirCreatedEvent(path))
                 #    self.queue_event(DirDeletedEvent(path))
@@ -529,10 +533,7 @@ class KqueueEmitter(EventEmitter):
         elif event.event_type == EVENT_TYPE_DELETED:
             self._unregister_kevent(event.src_path)
 
-    def _queue_dirs_modified(self,
-                             dirs_modified,
-                             ref_snapshot,
-                             new_snapshot):
+    def _queue_dirs_modified(self, dirs_modified, ref_snapshot, new_snapshot):
         """
         Queues events for directory modifications by scanning the directory
         for changes.
@@ -599,11 +600,7 @@ class KqueueEmitter(EventEmitter):
                     files_renamed.add(src_path)
         return files_renamed, dirs_renamed, dirs_modified
 
-    def _queue_renamed(self,
-                       src_path,
-                       is_directory,
-                       ref_snapshot,
-                       new_snapshot):
+    def _queue_renamed(self, src_path, is_directory, ref_snapshot, new_snapshot):
         """
         Compares information from two directory snapshots (one taken before
         the rename operation and another taken right after) to determine the
@@ -627,8 +624,7 @@ class KqueueEmitter(EventEmitter):
             return
 
         try:
-            dest_path = absolute_path(
-                new_snapshot.path_for_inode(ref_stat_info.st_ino))
+            dest_path = absolute_path(new_snapshot.path_for_inode(ref_stat_info.st_ino))
             if is_directory:
                 event = DirMovedEvent(src_path, dest_path)
                 # TODO: Do we need to fire moved events for the items
@@ -661,9 +657,7 @@ class KqueueEmitter(EventEmitter):
         :type timeout:
             ``float`` (seconds)
         """
-        return self._kq.control(self._descriptors.kevents,
-                                MAX_EVENTS,
-                                timeout)
+        return self._kq.control(self._descriptors.kevents, MAX_EVENTS, timeout)
 
     def queue_events(self, timeout):
         """
@@ -678,30 +672,24 @@ class KqueueEmitter(EventEmitter):
         with self._lock:
             try:
                 event_list = self._read_events(timeout)
-                files_renamed, dirs_renamed, dirs_modified = (
-                    self._queue_events_except_renames_and_dir_modifications(event_list))
+                files_renamed, dirs_renamed, dirs_modified = self._queue_events_except_renames_and_dir_modifications(
+                    event_list
+                )
 
                 # Take a fresh snapshot of the directory and update the
                 # saved snapshot.
-                new_snapshot = DirectorySnapshot(self.watch.path,
-                                                 self.watch.is_recursive)
+                new_snapshot = DirectorySnapshot(
+                    self.watch.path, self.watch.is_recursive
+                )
                 ref_snapshot = self._snapshot
                 self._snapshot = new_snapshot
 
                 if files_renamed or dirs_renamed or dirs_modified:
                     for src_path in files_renamed:
-                        self._queue_renamed(src_path,
-                                            False,
-                                            ref_snapshot,
-                                            new_snapshot)
+                        self._queue_renamed(src_path, False, ref_snapshot, new_snapshot)
                     for src_path in dirs_renamed:
-                        self._queue_renamed(src_path,
-                                            True,
-                                            ref_snapshot,
-                                            new_snapshot)
-                    self._queue_dirs_modified(dirs_modified,
-                                              ref_snapshot,
-                                              new_snapshot)
+                        self._queue_renamed(src_path, True, ref_snapshot, new_snapshot)
+                    self._queue_dirs_modified(dirs_modified, ref_snapshot, new_snapshot)
             except OSError as e:
                 if e.errno == errno.EBADF:
                     # logging.debug(e)

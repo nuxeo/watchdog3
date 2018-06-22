@@ -20,7 +20,6 @@ from collections import deque
 
 
 class DelayedQueue(object):
-
     def __init__(self, delay):
         self.delay = delay
         self._lock = threading.Lock()

@@ -38,27 +38,27 @@ except NameError:
 
 # This is used by Linux when the locale seems to be improperly set. UTF-8 tends
 # to be the encoding used by all distros, so this is a good fallback.
-fs_fallback_encoding = 'utf-8'
+fs_fallback_encoding = "utf-8"
 fs_encoding = sys.getfilesystemencoding() or fs_fallback_encoding
 
 
 def encode(path):
     if isinstance(path, str_cls):
         try:
-            path = path.encode(fs_encoding, 'strict')
+            path = path.encode(fs_encoding, "strict")
         except UnicodeEncodeError:
             if not platform.is_linux():
                 raise
-            path = path.encode(fs_fallback_encoding, 'strict')
+            path = path.encode(fs_fallback_encoding, "strict")
     return path
 
 
 def decode(path):
     if isinstance(path, bytes_cls):
         try:
-            path = path.decode(fs_encoding, 'strict')
+            path = path.decode(fs_encoding, "strict")
         except UnicodeDecodeError:
             if not platform.is_linux():
                 raise
-            path = path.decode(fs_fallback_encoding, 'strict')
+            path = path.decode(fs_fallback_encoding, "strict")
     return path

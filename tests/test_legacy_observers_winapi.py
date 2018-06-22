@@ -23,18 +23,11 @@ import queue
 import unittest
 from time import sleep
 
-from watchdog.events import (
-    DirCreatedEvent,
-    DirMovedEvent,
-)
+from watchdog.events import DirCreatedEvent, DirMovedEvent
 from watchdog.observers.api import ObservedWatch
 from watchdog.utils import platform
 
-from .shell import (
-    mkdir,
-    mkdtemp,
-    mv
-)
+from .shell import mkdir, mkdtemp, mv
 
 if platform.is_windows():
     from watchdog.observers.read_directory_changes import WindowsApiEmitter as Emitter
@@ -49,7 +42,6 @@ if platform.is_windows():
         return os.path.join(temp_dir, *args)
 
     class TestWindowsApiEmitter(unittest.TestCase):
-
         def setUp(self):
             self.event_queue = queue.Queue()
             self.watch = ObservedWatch(temp_dir, True)
@@ -62,9 +54,9 @@ if platform.is_windows():
             SLEEP_TIME = 1
             self.emitter.start()
             sleep(SLEEP_TIME)
-            mkdir(p('fromdir'))
+            mkdir(p("fromdir"))
             sleep(SLEEP_TIME)
-            mv(p('fromdir'), p('todir'))
+            mv(p("fromdir"), p("todir"))
             sleep(SLEEP_TIME)
             self.emitter.stop()
 
@@ -73,10 +65,9 @@ if platform.is_windows():
             #   * unordered
             #   * non-unique
             # A multiset! Python's collections.Counter class seems appropriate.
-            expected = set([
-                           DirCreatedEvent(p('fromdir')),
-                           DirMovedEvent(p('fromdir'), p('todir')),
-                           ])
+            expected = set(
+                [DirCreatedEvent(p("fromdir")), DirMovedEvent(p("fromdir"), p("todir"))]
+            )
             got = set()
 
             while True:

@@ -15,7 +15,7 @@
 # limitations under the License.
 import sys
 
-__all__ = ['queue', 'Event']
+__all__ = ["queue", "Event"]
 
 try:
     import queue

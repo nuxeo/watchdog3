@@ -42,7 +42,7 @@ from watchdog.observers.api import (
     EventEmitter,
     BaseObserver,
     DEFAULT_OBSERVER_TIMEOUT,
-    DEFAULT_EMITTER_TIMEOUT
+    DEFAULT_EMITTER_TIMEOUT,
 )
 
 from watchdog.observers.winapi import (
@@ -53,7 +53,7 @@ from watchdog.observers.winapi import (
 
 
 # HACK:
-WATCHDOG_TRAVERSE_MOVED_DIR_DELAY = 1   # seconds
+WATCHDOG_TRAVERSE_MOVED_DIR_DELAY = 1  # seconds
 
 
 class WindowsApiEmitter(EventEmitter):
@@ -80,7 +80,7 @@ class WindowsApiEmitter(EventEmitter):
             last_renamed_src_path = ""
             for winapi_event in winapi_events:
                 src_path = os.path.join(self.watch.path, winapi_event.src_path)
-                
+
                 if winapi_event.is_renamed_old:
                     last_renamed_src_path = src_path
                 elif winapi_event.is_renamed_new:
@@ -101,13 +101,19 @@ class WindowsApiEmitter(EventEmitter):
                             # TODO: Come up with a better solution, possibly
                             # a way to wait for I/O to complete before
                             # queuing events.
-                            for sub_moved_event in generate_sub_moved_events(src_path, dest_path):
+                            for sub_moved_event in generate_sub_moved_events(
+                                src_path, dest_path
+                            ):
                                 self.queue_event(sub_moved_event)
                         self.queue_event(event)
                     else:
                         self.queue_event(FileMovedEvent(src_path, dest_path))
                 elif winapi_event.is_modified:
-                    cls = DirModifiedEvent if os.path.isdir(src_path) else FileModifiedEvent
+                    cls = (
+                        DirModifiedEvent
+                        if os.path.isdir(src_path)
+                        else FileModifiedEvent
+                    )
                     self.queue_event(cls(src_path))
                 elif winapi_event.is_added:
                     isdir = os.path.isdir(src_path)
@@ -132,5 +138,4 @@ class WindowsApiObserver(BaseObserver):
     """
 
     def __init__(self, timeout=DEFAULT_OBSERVER_TIMEOUT):
-        BaseObserver.__init__(self, emitter_class=WindowsApiEmitter,
-                              timeout=timeout)
+        BaseObserver.__init__(self, emitter_class=WindowsApiEmitter, timeout=timeout)

@@ -64,8 +64,11 @@ class InotifyBuffer(BaseThread):
                 if inotify_event.is_moved_to:
 
                     def matching_from_event(event):
-                        return (not isinstance(event, tuple) and event.is_moved_from
-                                and event.cookie == inotify_event.cookie)
+                        return (
+                            not isinstance(event, tuple)
+                            and event.is_moved_from
+                            and event.cookie == inotify_event.cookie
+                        )
 
                     from_event = self._queue.remove(matching_from_event)
                     if from_event is not None:
@@ -76,7 +79,9 @@ class InotifyBuffer(BaseThread):
                 else:
                     self._queue.put(inotify_event)
 
-                if inotify_event.is_delete_self and \
-                        inotify_event.src_path == self._inotify.path:
+                if (
+                    inotify_event.is_delete_self
+                    and inotify_event.src_path == self._inotify.path
+                ):
                     # Deleted the watched directory, stop watching for events
                     deleted_self = True

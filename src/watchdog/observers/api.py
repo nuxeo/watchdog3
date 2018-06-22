@@ -23,8 +23,8 @@ from watchdog.utils import BaseThread
 from watchdog.utils.compat import queue
 from watchdog.utils.bricks import SkipRepeatsQueue
 
-DEFAULT_EMITTER_TIMEOUT = 1    # in seconds.
-DEFAULT_OBSERVER_TIMEOUT = 1   # in seconds.
+DEFAULT_EMITTER_TIMEOUT = 1  # in seconds.
+DEFAULT_OBSERVER_TIMEOUT = 1  # in seconds.
 
 
 # Collection classes
@@ -75,7 +75,9 @@ class ObservedWatch(object):
 
     def __repr__(self):
         return "<ObservedWatch: path=%s, is_recursive=%s>" % (
-            self.path, self.is_recursive)
+            self.path,
+            self.is_recursive,
+        )
 
 
 # Observer classes
@@ -286,9 +288,9 @@ class BaseObserver(EventDispatcher):
 
             # If we don't have an emitter for this watch already, create it.
             if self._emitter_for_watch.get(watch) is None:
-                emitter = self._emitter_class(event_queue=self.event_queue,
-                                              watch=watch,
-                                              timeout=self.timeout)
+                emitter = self._emitter_class(
+                    event_queue=self.event_queue, watch=watch, timeout=self.timeout
+                )
                 self._add_emitter(emitter)
                 if self.is_alive():
                     emitter.start()

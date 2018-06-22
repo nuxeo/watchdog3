@@ -25,37 +25,39 @@ from watchdog.observers.api import EventEmitter, BaseObserver
 @pytest.fixture()
 def observer(request):
     observer = BaseObserver(EventEmitter)
+
     def finalizer():
         try:
             observer.stop()
         except:
             pass
+
     request.addfinalizer(finalizer)
     return observer
 
 
 def test_schedule_should_start_emitter_if_running(observer):
     observer.start()
-    observer.schedule(None, '')
+    observer.schedule(None, "")
     (emitter,) = observer.emitters
     assert emitter.is_alive()
 
 
 def test_schedule_should_not_start_emitter_if_not_running(observer):
-    observer.schedule(None, '')
+    observer.schedule(None, "")
     (emitter,) = observer.emitters
     assert not emitter.is_alive()
 
 
 def test_start_should_start_emitter(observer):
-    observer.schedule(None, '')
+    observer.schedule(None, "")
     observer.start()
     (emitter,) = observer.emitters
     assert emitter.is_alive()
 
 
 def test_stop_should_stop_emitter(observer):
-    observer.schedule(None, '')
+    observer.schedule(None, "")
     observer.start()
     (emitter,) = observer.emitters
     assert emitter.is_alive()
@@ -70,17 +72,18 @@ def test_unschedule_self(observer):
     Tests that unscheduling a watch from within an event handler correctly
     correctly unregisters emitter and handler without deadlocking.
     """
+
     class EventHandler(FileSystemEventHandler):
         def on_modified(self, event):
             observer.unschedule(watch)
             unschedule_finished.set()
 
     unschedule_finished = Event()
-    watch = observer.schedule(EventHandler(), '')
+    watch = observer.schedule(EventHandler(), "")
     observer.start()
 
     (emitter,) = observer.emitters
-    emitter.queue_event(FileModifiedEvent(''))
+    emitter.queue_event(FileModifiedEvent(""))
 
     assert unschedule_finished.wait()
     assert len(observer.emitters) == 0

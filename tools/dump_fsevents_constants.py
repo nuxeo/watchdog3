@@ -27,7 +27,7 @@ def dump_constants(header):
 
     for attribute in dir(FSEvents):
         value = getattr(FSEvents, attribute)
-        if attribute.startswith('k') and isinstance(value, int):
+        if attribute.startswith("k") and isinstance(value, int):
             output.write("    %s = %s\n" % (attribute, hex(value)))
     content = output.getvalue()
     output.close()
@@ -36,8 +36,9 @@ def dump_constants(header):
 
 def write_constants_to_file(filename):
     content = dump_constants(header)
-    with open(filename, 'wb') as f:
+    with open(filename, "wb") as f:
         f.write(content)
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:

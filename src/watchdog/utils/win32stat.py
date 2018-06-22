@@ -42,21 +42,25 @@ FILE_FLAG_OPEN_REPARSE_POINT = 0x00200000
 
 
 class FILETIME(ctypes.Structure):
-    _fields_ = [("dwLowDateTime", ctypes.wintypes.DWORD),
-                ("dwHighDateTime", ctypes.wintypes.DWORD)]
+    _fields_ = [
+        ("dwLowDateTime", ctypes.wintypes.DWORD),
+        ("dwHighDateTime", ctypes.wintypes.DWORD),
+    ]
 
 
 class BY_HANDLE_FILE_INFORMATION(ctypes.Structure):
-    _fields_ = [('dwFileAttributes', ctypes.wintypes.DWORD),
-                ('ftCreationTime', FILETIME),
-                ('ftLastAccessTime', FILETIME),
-                ('ftLastWriteTime', FILETIME),
-                ('dwVolumeSerialNumber', ctypes.wintypes.DWORD),
-                ('nFileSizeHigh', ctypes.wintypes.DWORD),
-                ('nFileSizeLow', ctypes.wintypes.DWORD),
-                ('nNumberOfLinks', ctypes.wintypes.DWORD),
-                ('nFileIndexHigh', ctypes.wintypes.DWORD),
-                ('nFileIndexLow', ctypes.wintypes.DWORD)]
+    _fields_ = [
+        ("dwFileAttributes", ctypes.wintypes.DWORD),
+        ("ftCreationTime", FILETIME),
+        ("ftLastAccessTime", FILETIME),
+        ("ftLastWriteTime", FILETIME),
+        ("dwVolumeSerialNumber", ctypes.wintypes.DWORD),
+        ("nFileSizeHigh", ctypes.wintypes.DWORD),
+        ("nFileSizeLow", ctypes.wintypes.DWORD),
+        ("nNumberOfLinks", ctypes.wintypes.DWORD),
+        ("nFileIndexHigh", ctypes.wintypes.DWORD),
+        ("nFileIndexLow", ctypes.wintypes.DWORD),
+    ]
 
 
 CreateFile = ctypes.windll.kernel32.CreateFileW
@@ -83,32 +87,39 @@ CloseHandle.restype = ctypes.wintypes.BOOL
 CloseHandle.argtypes = (ctypes.wintypes.HANDLE,)
 
 
-StatResult = namedtuple('StatResult', 'st_dev st_ino st_mode st_mtime')
+StatResult = namedtuple("StatResult", "st_dev st_ino st_mode st_mtime")
+
 
 def _to_mode(attr):
     m = 0
-    if (attr & FILE_ATTRIBUTE_DIRECTORY):
+    if attr & FILE_ATTRIBUTE_DIRECTORY:
         m |= stdstat.S_IFDIR | 0o111
     else:
         m |= stdstat.S_IFREG
-    if (attr & FILE_ATTRIBUTE_READONLY):
+    if attr & FILE_ATTRIBUTE_READONLY:
         m |= 0o444
     else:
         m |= 0o666
     return m
 
+
 def _to_unix_time(ft):
     t = (ft.dwHighDateTime) << 32 | ft.dwLowDateTime
     return (t / 10000000) - 11644473600
 
+
 def stat(path):
-    hfile = CreateFile(path,
-            FILE_READ_ATTRIBUTES,
-            0,
-            None,
-            OPEN_EXISTING,
-            FILE_ATTRIBUTE_NORMAL | FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT,
-            None)
+    hfile = CreateFile(
+        path,
+        FILE_READ_ATTRIBUTES,
+        0,
+        None,
+        OPEN_EXISTING,
+        FILE_ATTRIBUTE_NORMAL
+        | FILE_FLAG_BACKUP_SEMANTICS
+        | FILE_FLAG_OPEN_REPARSE_POINT,
+        None,
+    )
     if hfile == INVALID_HANDLE_VALUE:
         raise ctypes.WinError()
     info = BY_HANDLE_FILE_INFORMATION()
@@ -116,8 +127,9 @@ def stat(path):
     CloseHandle(hfile)
     if not r:
         raise ctypes.WinError()
-    return StatResult(st_dev=info.dwVolumeSerialNumber,
-                      st_ino=(info.nFileIndexHigh << 32) + info.nFileIndexLow,
-                      st_mode=_to_mode(info.dwFileAttributes),
-                      st_mtime=_to_unix_time(info.ftLastWriteTime)
-                      )
+    return StatResult(
+        st_dev=info.dwVolumeSerialNumber,
+        st_ino=(info.nFileIndexHigh << 32) + info.nFileIndexLow,
+        st_mode=_to_mode(info.dwFileAttributes),
+        st_mtime=_to_unix_time(info.ftLastWriteTime),
+    )

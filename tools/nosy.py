@@ -43,11 +43,13 @@ def filter_paths(pathnames, patterns=None, ignore_patterns=None):
    ignorable patterns."""
     result = []
     if patterns is None:
-        patterns = ['*']
+        patterns = ["*"]
     if ignore_patterns is None:
         ignore_patterns = []
     for pathname in pathnames:
-        if match_patterns(pathname, patterns) and not match_patterns(pathname, ignore_patterns):
+        if match_patterns(pathname, patterns) and not match_patterns(
+            pathname, ignore_patterns
+        ):
             result.append(pathname)
     return result
 
@@ -56,11 +58,13 @@ def absolute_walker(pathname, recursive):
     if recursive:
         walk = os.walk
     else:
+
         def walk(_path):
             try:
                 return next(os.walk(_path))
             except NameError:
                 return next(os.walk(_path))
+
     for root, directories, filenames in walk(pathname):
         yield root
         for directory in directories:
@@ -79,7 +83,7 @@ def glob_recursive(pathname, patterns=None, ignore_patterns=None):
     return filepaths
 
 
-def check_sum(pathname='.', patterns=None, ignore_patterns=None):
+def check_sum(pathname=".", patterns=None, ignore_patterns=None):
     checksum = 0
     for f in glob_recursive(pathname, patterns, ignore_patterns):
         stats = os.stat(f)
@@ -91,7 +95,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         path = sys.argv[1]
     else:
-        path = '.'
+        path = "."
 
     if len(sys.argv) > 2:
         command = sys.argv[2]
@@ -100,14 +104,13 @@ if __name__ == "__main__":
             # Build documentation automatically as well as the source code
             # changes.
             "make SPHINXBUILD=../bin/sphinx-build -C docs html",
-
             "python -m pytest",
         ]
-        command = '; '.join(commands)
+        command = "; ".join(commands)
 
     previous_checksum = 0
     while True:
-        calculated_checksum = check_sum(path, patterns=['*.py', '*.rst', '*.rst.inc'])
+        calculated_checksum = check_sum(path, patterns=["*.py", "*.rst", "*.rst.inc"])
         if calculated_checksum != previous_checksum:
             previous_checksum = calculated_checksum
             subprocess.Popen(command, shell=True)

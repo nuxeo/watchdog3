@@ -27,81 +27,82 @@ def wait():
     to be able to detected modifications.
     """
     if platform.is_darwin() or platform.is_windows():
-         # on osx resolution of stat.mtime is only 1 second
+        # on osx resolution of stat.mtime is only 1 second
         time.sleep(1.5)
     else:
         time.sleep(0.5)
 
 
 def test_move_to(p):
-    mkdir(p('dir1'))
-    mkdir(p('dir2'))
-    touch(p('dir1', 'a'))
-    ref = DirectorySnapshot(p('dir2'))
-    mv(p('dir1', 'a'), p('dir2', 'b'))
-    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p('dir2')))
-    assert diff.files_created == [p('dir2', 'b')]
+    mkdir(p("dir1"))
+    mkdir(p("dir2"))
+    touch(p("dir1", "a"))
+    ref = DirectorySnapshot(p("dir2"))
+    mv(p("dir1", "a"), p("dir2", "b"))
+    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p("dir2")))
+    assert diff.files_created == [p("dir2", "b")]
 
 
 def test_move_from(p):
-    mkdir(p('dir1'))
-    mkdir(p('dir2'))
-    touch(p('dir1', 'a'))
-    ref = DirectorySnapshot(p('dir1'))
-    mv(p('dir1', 'a'), p('dir2', 'b'))
-    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p('dir1')))
-    assert diff.files_deleted == [p('dir1', 'a')]
+    mkdir(p("dir1"))
+    mkdir(p("dir2"))
+    touch(p("dir1", "a"))
+    ref = DirectorySnapshot(p("dir1"))
+    mv(p("dir1", "a"), p("dir2", "b"))
+    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p("dir1")))
+    assert diff.files_deleted == [p("dir1", "a")]
 
 
 def test_move_internal(p):
-    mkdir(p('dir1'))
-    mkdir(p('dir2'))
-    touch(p('dir1', 'a'))
-    ref = DirectorySnapshot(p(''))
-    mv(p('dir1', 'a'), p('dir2', 'b'))
-    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p('')))
-    assert diff.files_moved == [(p('dir1', 'a'), p('dir2', 'b'))]
+    mkdir(p("dir1"))
+    mkdir(p("dir2"))
+    touch(p("dir1", "a"))
+    ref = DirectorySnapshot(p(""))
+    mv(p("dir1", "a"), p("dir2", "b"))
+    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p("")))
+    assert diff.files_moved == [(p("dir1", "a"), p("dir2", "b"))]
     assert diff.files_created == []
     assert diff.files_deleted == []
 
 
 def test_move_replace(p):
-    mkdir(p('dir1'))
-    mkdir(p('dir2'))
-    touch(p('dir1', 'a'))
-    touch(p('dir2', 'b'))
-    ref = DirectorySnapshot(p(''))
-    mv(p('dir1', 'a'), p('dir2', 'b'))
-    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p('')))
-    assert diff.files_moved == [(p('dir1', 'a'), p('dir2', 'b'))]
-    assert diff.files_deleted == [p('dir2', 'b')]
+    mkdir(p("dir1"))
+    mkdir(p("dir2"))
+    touch(p("dir1", "a"))
+    touch(p("dir2", "b"))
+    ref = DirectorySnapshot(p(""))
+    mv(p("dir1", "a"), p("dir2", "b"))
+    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p("")))
+    assert diff.files_moved == [(p("dir1", "a"), p("dir2", "b"))]
+    assert diff.files_deleted == [p("dir2", "b")]
     assert diff.files_created == []
 
+
 def test_dir_modify_on_create(p):
-    ref = DirectorySnapshot(p(''))
+    ref = DirectorySnapshot(p(""))
     wait()
-    touch(p('a'))
-    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p('')))
-    assert diff.dirs_modified == [p('')]
+    touch(p("a"))
+    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p("")))
+    assert diff.dirs_modified == [p("")]
 
 
 def test_dir_modify_on_move(p):
-    mkdir(p('dir1'))
-    mkdir(p('dir2'))
-    touch(p('dir1', 'a'))
-    ref = DirectorySnapshot(p(''))
+    mkdir(p("dir1"))
+    mkdir(p("dir2"))
+    touch(p("dir1", "a"))
+    ref = DirectorySnapshot(p(""))
     wait()
-    mv(p('dir1', 'a'), p('dir2', 'b'))
-    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p('')))
-    assert set(diff.dirs_modified) == set([p('dir1'), p('dir2')])
+    mv(p("dir1", "a"), p("dir2", "b"))
+    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p("")))
+    assert set(diff.dirs_modified) == set([p("dir1"), p("dir2")])
 
 
 def test_detect_modify_for_moved_files(p):
-    touch(p('a'))
-    ref = DirectorySnapshot(p(''))
+    touch(p("a"))
+    ref = DirectorySnapshot(p(""))
     wait()
-    touch(p('a'))
-    mv(p('a'), p('b'))
-    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p('')))
-    assert diff.files_moved == [(p('a'), p('b'))]
-    assert diff.files_modified == [p('a')]
+    touch(p("a"))
+    mv(p("a"), p("b"))
+    diff = DirectorySnapshotDiff(ref, DirectorySnapshot(p("")))
+    assert diff.files_moved == [(p("a"), p("b"))]
+    assert diff.files_modified == [p("a")]

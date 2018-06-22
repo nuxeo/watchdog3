@@ -44,12 +44,11 @@ from watchdog.events import (
     EVENT_TYPE_MOVED,
 )
 
-path_1 = '/path/xyz'
-path_2 = '/path/abc'
+path_1 = "/path/xyz"
+path_2 = "/path/abc"
 
 
 class TestFileDeletedEvent(unittest.TestCase):
-
     def test___init__(self):
         event = FileDeletedEvent(path_1)
         self.assertEqual(path_1, event.src_path)
@@ -63,7 +62,6 @@ class TestFileDeletedEvent(unittest.TestCase):
 
 
 class TestFileModifiedEvent(unittest.TestCase):
-
     def test___init__(self):
         event = FileModifiedEvent(path_1)
         self.assertEqual(path_1, event.src_path)
@@ -77,7 +75,6 @@ class TestFileModifiedEvent(unittest.TestCase):
 
 
 class TestFileCreatedEvent(unittest.TestCase):
-
     def test___init__(self):
         event = FileCreatedEvent(path_1)
         self.assertEqual(path_1, event.src_path)
@@ -86,7 +83,6 @@ class TestFileCreatedEvent(unittest.TestCase):
 
 
 class TestFileMovedEvent(unittest.TestCase):
-
     def test___init__(self):
         event = FileMovedEvent(path_1, path_2)
         self.assertEqual(path_1, event.src_path)
@@ -96,7 +92,6 @@ class TestFileMovedEvent(unittest.TestCase):
 
 
 class TestDirDeletedEvent(unittest.TestCase):
-
     def test___init__(self):
         event = DirDeletedEvent(path_1)
         self.assertEqual(path_1, event.src_path)
@@ -105,7 +100,6 @@ class TestDirDeletedEvent(unittest.TestCase):
 
 
 class TestDirModifiedEvent(unittest.TestCase):
-
     def test___init__(self):
         event = DirModifiedEvent(path_1)
         self.assertEqual(path_1, event.src_path)
@@ -114,7 +108,6 @@ class TestDirModifiedEvent(unittest.TestCase):
 
 
 class TestDirCreatedEvent(unittest.TestCase):
-
     def test___init__(self):
         event = DirCreatedEvent(path_1)
         self.assertEqual(path_1, event.src_path)
@@ -123,16 +116,15 @@ class TestDirCreatedEvent(unittest.TestCase):
 
 
 class TestFileSystemEventHandler(unittest.TestCase):
-
     def test_dispatch(self):
-        dir_del_event = DirDeletedEvent('/path/blah.py')
-        file_del_event = FileDeletedEvent('/path/blah.txt')
-        dir_cre_event = DirCreatedEvent('/path/blah.py')
-        file_cre_event = FileCreatedEvent('/path/blah.txt')
-        dir_mod_event = DirModifiedEvent('/path/blah.py')
-        file_mod_event = FileModifiedEvent('/path/blah.txt')
-        dir_mov_event = DirMovedEvent('/path/blah.py', '/path/blah')
-        file_mov_event = FileMovedEvent('/path/blah.txt', '/path/blah')
+        dir_del_event = DirDeletedEvent("/path/blah.py")
+        file_del_event = FileDeletedEvent("/path/blah.txt")
+        dir_cre_event = DirCreatedEvent("/path/blah.py")
+        file_cre_event = FileCreatedEvent("/path/blah.txt")
+        dir_mod_event = DirModifiedEvent("/path/blah.py")
+        file_mod_event = FileModifiedEvent("/path/blah.txt")
+        dir_mov_event = DirMovedEvent("/path/blah.py", "/path/blah")
+        file_mov_event = FileMovedEvent("/path/blah.txt", "/path/blah")
 
         all_events = [
             dir_mod_event,
@@ -149,7 +141,6 @@ class TestFileSystemEventHandler(unittest.TestCase):
             self.assertEqual(a, b)
 
         class TestableEventHandler(FileSystemEventHandler):
-
             def on_any_event(self, event):
                 assert True
 
@@ -170,55 +161,57 @@ class TestFileSystemEventHandler(unittest.TestCase):
         for event in all_events:
             handler.dispatch(event)
 
+
 g_allowed_patterns = ["*.py", "*.txt"]
 g_ignore_patterns = ["*.foo"]
 
 
 class TestPatternMatchingEventHandler(unittest.TestCase):
-
     def test_dispatch(self):
         # Utilities.
-        patterns = ['*.py', '*.txt']
+        patterns = ["*.py", "*.txt"]
         ignore_patterns = ["*.pyc"]
 
         def assert_patterns(event):
-            if has_attribute(event, 'dest_path'):
+            if has_attribute(event, "dest_path"):
                 paths = [event.src_path, event.dest_path]
             else:
                 paths = [event.src_path]
-            filtered_paths = filter_paths(paths,
-                                          included_patterns=patterns,
-                                          excluded_patterns=ignore_patterns,
-                                          case_sensitive=False)
+            filtered_paths = filter_paths(
+                paths,
+                included_patterns=patterns,
+                excluded_patterns=ignore_patterns,
+                case_sensitive=False,
+            )
             self.assertTrue(filtered_paths)
 
-        dir_del_event_match = DirDeletedEvent('/path/blah.py')
-        dir_del_event_not_match = DirDeletedEvent('/path/foobar')
-        dir_del_event_ignored = DirDeletedEvent('/path/foobar.pyc')
-        file_del_event_match = FileDeletedEvent('/path/blah.txt')
-        file_del_event_not_match = FileDeletedEvent('/path/foobar')
-        file_del_event_ignored = FileDeletedEvent('/path/blah.pyc')
+        dir_del_event_match = DirDeletedEvent("/path/blah.py")
+        dir_del_event_not_match = DirDeletedEvent("/path/foobar")
+        dir_del_event_ignored = DirDeletedEvent("/path/foobar.pyc")
+        file_del_event_match = FileDeletedEvent("/path/blah.txt")
+        file_del_event_not_match = FileDeletedEvent("/path/foobar")
+        file_del_event_ignored = FileDeletedEvent("/path/blah.pyc")
 
-        dir_cre_event_match = DirCreatedEvent('/path/blah.py')
-        dir_cre_event_not_match = DirCreatedEvent('/path/foobar')
-        dir_cre_event_ignored = DirCreatedEvent('/path/foobar.pyc')
-        file_cre_event_match = FileCreatedEvent('/path/blah.txt')
-        file_cre_event_not_match = FileCreatedEvent('/path/foobar')
-        file_cre_event_ignored = FileCreatedEvent('/path/blah.pyc')
+        dir_cre_event_match = DirCreatedEvent("/path/blah.py")
+        dir_cre_event_not_match = DirCreatedEvent("/path/foobar")
+        dir_cre_event_ignored = DirCreatedEvent("/path/foobar.pyc")
+        file_cre_event_match = FileCreatedEvent("/path/blah.txt")
+        file_cre_event_not_match = FileCreatedEvent("/path/foobar")
+        file_cre_event_ignored = FileCreatedEvent("/path/blah.pyc")
 
-        dir_mod_event_match = DirModifiedEvent('/path/blah.py')
-        dir_mod_event_not_match = DirModifiedEvent('/path/foobar')
-        dir_mod_event_ignored = DirModifiedEvent('/path/foobar.pyc')
-        file_mod_event_match = FileModifiedEvent('/path/blah.txt')
-        file_mod_event_not_match = FileModifiedEvent('/path/foobar')
-        file_mod_event_ignored = FileModifiedEvent('/path/blah.pyc')
+        dir_mod_event_match = DirModifiedEvent("/path/blah.py")
+        dir_mod_event_not_match = DirModifiedEvent("/path/foobar")
+        dir_mod_event_ignored = DirModifiedEvent("/path/foobar.pyc")
+        file_mod_event_match = FileModifiedEvent("/path/blah.txt")
+        file_mod_event_not_match = FileModifiedEvent("/path/foobar")
+        file_mod_event_ignored = FileModifiedEvent("/path/blah.pyc")
 
-        dir_mov_event_match = DirMovedEvent('/path/blah.py', '/path/blah')
-        dir_mov_event_not_match = DirMovedEvent('/path/foobar', '/path/blah')
-        dir_mov_event_ignored = DirMovedEvent('/path/foobar.pyc', '/path/blah')
-        file_mov_event_match = FileMovedEvent('/path/blah.txt', '/path/blah')
-        file_mov_event_not_match = FileMovedEvent('/path/foobar', '/path/blah')
-        file_mov_event_ignored = FileMovedEvent('/path/blah.pyc', '/path/blah')
+        dir_mov_event_match = DirMovedEvent("/path/blah.py", "/path/blah")
+        dir_mov_event_not_match = DirMovedEvent("/path/foobar", "/path/blah")
+        dir_mov_event_ignored = DirMovedEvent("/path/foobar.pyc", "/path/blah")
+        file_mov_event_match = FileMovedEvent("/path/blah.txt", "/path/blah")
+        file_mov_event_not_match = FileMovedEvent("/path/foobar", "/path/blah")
+        file_mov_event_ignored = FileMovedEvent("/path/blah.pyc", "/path/blah")
 
         all_dir_events = [
             dir_mod_event_match,
@@ -257,7 +250,6 @@ class TestPatternMatchingEventHandler(unittest.TestCase):
             self.assertEqual(a, b)
 
         class TestableEventHandler(PatternMatchingEventHandler):
-
             def on_any_event(self, event):
                 assert_check_directory(self, event)
 
@@ -281,12 +273,12 @@ class TestPatternMatchingEventHandler(unittest.TestCase):
                 assert_equal(event.event_type, EVENT_TYPE_CREATED)
                 assert_patterns(event)
 
-        no_dirs_handler = TestableEventHandler(patterns=patterns,
-                                               ignore_patterns=ignore_patterns,
-                                               ignore_directories=True)
-        handler = TestableEventHandler(patterns=patterns,
-                                       ignore_patterns=ignore_patterns,
-                                       ignore_directories=False)
+        no_dirs_handler = TestableEventHandler(
+            patterns=patterns, ignore_patterns=ignore_patterns, ignore_directories=True
+        )
+        handler = TestableEventHandler(
+            patterns=patterns, ignore_patterns=ignore_patterns, ignore_directories=False
+        )
 
         for event in all_events:
             no_dirs_handler.dispatch(event)
@@ -294,46 +286,52 @@ class TestPatternMatchingEventHandler(unittest.TestCase):
             handler.dispatch(event)
 
     def test___init__(self):
-        handler1 = PatternMatchingEventHandler(g_allowed_patterns,
-                                               g_ignore_patterns, True)
-        handler2 = PatternMatchingEventHandler(g_allowed_patterns,
-                                               g_ignore_patterns, False)
+        handler1 = PatternMatchingEventHandler(
+            g_allowed_patterns, g_ignore_patterns, True
+        )
+        handler2 = PatternMatchingEventHandler(
+            g_allowed_patterns, g_ignore_patterns, False
+        )
         self.assertEqual(handler1.patterns, g_allowed_patterns)
         self.assertEqual(handler1.ignore_patterns, g_ignore_patterns)
         self.assertTrue(handler1.ignore_directories)
         self.assertFalse(handler2.ignore_directories)
 
     def test_ignore_directories(self):
-        handler1 = PatternMatchingEventHandler(g_allowed_patterns,
-                                               g_ignore_patterns, True)
-        handler2 = PatternMatchingEventHandler(g_allowed_patterns,
-                                               g_ignore_patterns, False)
+        handler1 = PatternMatchingEventHandler(
+            g_allowed_patterns, g_ignore_patterns, True
+        )
+        handler2 = PatternMatchingEventHandler(
+            g_allowed_patterns, g_ignore_patterns, False
+        )
         self.assertTrue(handler1.ignore_directories)
         self.assertFalse(handler2.ignore_directories)
 
     def test_ignore_patterns(self):
-        handler1 = PatternMatchingEventHandler(g_allowed_patterns,
-                                               g_ignore_patterns, True)
+        handler1 = PatternMatchingEventHandler(
+            g_allowed_patterns, g_ignore_patterns, True
+        )
         self.assertEqual(handler1.ignore_patterns, g_ignore_patterns)
 
     def test_patterns(self):
-        handler1 = PatternMatchingEventHandler(g_allowed_patterns,
-                                               g_ignore_patterns, True)
+        handler1 = PatternMatchingEventHandler(
+            g_allowed_patterns, g_ignore_patterns, True
+        )
         self.assertEqual(handler1.patterns, g_allowed_patterns)
+
 
 g_allowed_regexes = [r".*\.py", r".*\.txt"]
 g_ignore_regexes = [r".*\.pyc"]
 
 
 class TestRegexMatchingEventHandler(unittest.TestCase):
-
     def test_dispatch(self):
         # Utilities.
         regexes = [r".*\.py", r".*\.txt"]
         ignore_regexes = [r".*\.pyc"]
 
         def assert_regexes(handler, event):
-            if has_attribute(event, 'dest_path'):
+            if has_attribute(event, "dest_path"):
                 paths = [event.src_path, event.dest_path]
             else:
                 paths = [event.src_path]
@@ -343,33 +341,33 @@ class TestRegexMatchingEventHandler(unittest.TestCase):
                     filtered_paths.add(p)
             self.assertTrue(filtered_paths)
 
-        dir_del_event_match = DirDeletedEvent('/path/blah.py')
-        dir_del_event_not_match = DirDeletedEvent('/path/foobar')
-        dir_del_event_ignored = DirDeletedEvent('/path/foobar.pyc')
-        file_del_event_match = FileDeletedEvent('/path/blah.txt')
-        file_del_event_not_match = FileDeletedEvent('/path/foobar')
-        file_del_event_ignored = FileDeletedEvent('/path/blah.pyc')
+        dir_del_event_match = DirDeletedEvent("/path/blah.py")
+        dir_del_event_not_match = DirDeletedEvent("/path/foobar")
+        dir_del_event_ignored = DirDeletedEvent("/path/foobar.pyc")
+        file_del_event_match = FileDeletedEvent("/path/blah.txt")
+        file_del_event_not_match = FileDeletedEvent("/path/foobar")
+        file_del_event_ignored = FileDeletedEvent("/path/blah.pyc")
 
-        dir_cre_event_match = DirCreatedEvent('/path/blah.py')
-        dir_cre_event_not_match = DirCreatedEvent('/path/foobar')
-        dir_cre_event_ignored = DirCreatedEvent('/path/foobar.pyc')
-        file_cre_event_match = FileCreatedEvent('/path/blah.txt')
-        file_cre_event_not_match = FileCreatedEvent('/path/foobar')
-        file_cre_event_ignored = FileCreatedEvent('/path/blah.pyc')
+        dir_cre_event_match = DirCreatedEvent("/path/blah.py")
+        dir_cre_event_not_match = DirCreatedEvent("/path/foobar")
+        dir_cre_event_ignored = DirCreatedEvent("/path/foobar.pyc")
+        file_cre_event_match = FileCreatedEvent("/path/blah.txt")
+        file_cre_event_not_match = FileCreatedEvent("/path/foobar")
+        file_cre_event_ignored = FileCreatedEvent("/path/blah.pyc")
 
-        dir_mod_event_match = DirModifiedEvent('/path/blah.py')
-        dir_mod_event_not_match = DirModifiedEvent('/path/foobar')
-        dir_mod_event_ignored = DirModifiedEvent('/path/foobar.pyc')
-        file_mod_event_match = FileModifiedEvent('/path/blah.txt')
-        file_mod_event_not_match = FileModifiedEvent('/path/foobar')
-        file_mod_event_ignored = FileModifiedEvent('/path/blah.pyc')
+        dir_mod_event_match = DirModifiedEvent("/path/blah.py")
+        dir_mod_event_not_match = DirModifiedEvent("/path/foobar")
+        dir_mod_event_ignored = DirModifiedEvent("/path/foobar.pyc")
+        file_mod_event_match = FileModifiedEvent("/path/blah.txt")
+        file_mod_event_not_match = FileModifiedEvent("/path/foobar")
+        file_mod_event_ignored = FileModifiedEvent("/path/blah.pyc")
 
-        dir_mov_event_match = DirMovedEvent('/path/blah.py', '/path/blah')
-        dir_mov_event_not_match = DirMovedEvent('/path/foobar', '/path/blah')
-        dir_mov_event_ignored = DirMovedEvent('/path/foobar.pyc', '/path/blah')
-        file_mov_event_match = FileMovedEvent('/path/blah.txt', '/path/blah')
-        file_mov_event_not_match = FileMovedEvent('/path/foobar', '/path/blah')
-        file_mov_event_ignored = FileMovedEvent('/path/blah.pyc', '/path/blah')
+        dir_mov_event_match = DirMovedEvent("/path/blah.py", "/path/blah")
+        dir_mov_event_not_match = DirMovedEvent("/path/foobar", "/path/blah")
+        dir_mov_event_ignored = DirMovedEvent("/path/foobar.pyc", "/path/blah")
+        file_mov_event_match = FileMovedEvent("/path/blah.txt", "/path/blah")
+        file_mov_event_not_match = FileMovedEvent("/path/foobar", "/path/blah")
+        file_mov_event_ignored = FileMovedEvent("/path/blah.pyc", "/path/blah")
 
         all_dir_events = [
             dir_mod_event_match,
@@ -408,7 +406,6 @@ class TestRegexMatchingEventHandler(unittest.TestCase):
             self.assertEqual(a, b)
 
         class TestableEventHandler(RegexMatchingEventHandler):
-
             def on_any_event(self, event):
                 assert_check_directory(self, event)
 
@@ -432,12 +429,12 @@ class TestRegexMatchingEventHandler(unittest.TestCase):
                 assert_equal(event.event_type, EVENT_TYPE_CREATED)
                 assert_regexes(self, event)
 
-        no_dirs_handler = TestableEventHandler(regexes=regexes,
-                                               ignore_regexes=ignore_regexes,
-                                               ignore_directories=True)
-        handler = TestableEventHandler(regexes=regexes,
-                                       ignore_regexes=ignore_regexes,
-                                       ignore_directories=False)
+        no_dirs_handler = TestableEventHandler(
+            regexes=regexes, ignore_regexes=ignore_regexes, ignore_directories=True
+        )
+        handler = TestableEventHandler(
+            regexes=regexes, ignore_regexes=ignore_regexes, ignore_directories=False
+        )
 
         for event in all_events:
             no_dirs_handler.dispatch(event)
@@ -445,38 +442,29 @@ class TestRegexMatchingEventHandler(unittest.TestCase):
             handler.dispatch(event)
 
     def test___init__(self):
-        handler1 = RegexMatchingEventHandler(g_allowed_regexes,
-                                             g_ignore_regexes, True)
-        handler2 = RegexMatchingEventHandler(g_allowed_regexes,
-                                             g_ignore_regexes, False)
+        handler1 = RegexMatchingEventHandler(g_allowed_regexes, g_ignore_regexes, True)
+        handler2 = RegexMatchingEventHandler(g_allowed_regexes, g_ignore_regexes, False)
         self.assertEqual([r.pattern for r in handler1.regexes], g_allowed_regexes)
-        self.assertEqual([r.pattern for r in handler1.ignore_regexes],
-                         g_ignore_regexes)
+        self.assertEqual([r.pattern for r in handler1.ignore_regexes], g_ignore_regexes)
         self.assertTrue(handler1.ignore_directories)
         self.assertFalse(handler2.ignore_directories)
 
     def test_ignore_directories(self):
-        handler1 = RegexMatchingEventHandler(g_allowed_regexes,
-                                             g_ignore_regexes, True)
-        handler2 = RegexMatchingEventHandler(g_allowed_regexes,
-                                             g_ignore_regexes, False)
+        handler1 = RegexMatchingEventHandler(g_allowed_regexes, g_ignore_regexes, True)
+        handler2 = RegexMatchingEventHandler(g_allowed_regexes, g_ignore_regexes, False)
         self.assertTrue(handler1.ignore_directories)
         self.assertFalse(handler2.ignore_directories)
 
     def test_ignore_regexes(self):
-        handler1 = RegexMatchingEventHandler(g_allowed_regexes,
-                                             g_ignore_regexes, True)
-        self.assertEqual([r.pattern for r in handler1.ignore_regexes],
-                         g_ignore_regexes)
+        handler1 = RegexMatchingEventHandler(g_allowed_regexes, g_ignore_regexes, True)
+        self.assertEqual([r.pattern for r in handler1.ignore_regexes], g_ignore_regexes)
 
     def test_regexes(self):
-        handler1 = RegexMatchingEventHandler(g_allowed_regexes,
-                                             g_ignore_regexes, True)
+        handler1 = RegexMatchingEventHandler(g_allowed_regexes, g_ignore_regexes, True)
         self.assertEqual([r.pattern for r in handler1.regexes], g_allowed_regexes)
 
 
 class _TestableEventHandler(LoggingEventHandler):
-
     def on_any_event(self, event):
         assert True
 
@@ -498,17 +486,16 @@ class _TestableEventHandler(LoggingEventHandler):
 
 
 class TestLoggingEventHandler(unittest.TestCase):
-
     def test_dispatch(self):
         # Utilities.
-        dir_del_event = DirDeletedEvent('/path/blah.py')
-        file_del_event = FileDeletedEvent('/path/blah.txt')
-        dir_cre_event = DirCreatedEvent('/path/blah.py')
-        file_cre_event = FileCreatedEvent('/path/blah.txt')
-        dir_mod_event = DirModifiedEvent('/path/blah.py')
-        file_mod_event = FileModifiedEvent('/path/blah.txt')
-        dir_mov_event = DirMovedEvent('/path/blah.py', '/path/blah')
-        file_mov_event = FileMovedEvent('/path/blah.txt', '/path/blah')
+        dir_del_event = DirDeletedEvent("/path/blah.py")
+        file_del_event = FileDeletedEvent("/path/blah.txt")
+        dir_cre_event = DirCreatedEvent("/path/blah.py")
+        file_cre_event = FileCreatedEvent("/path/blah.txt")
+        dir_mod_event = DirModifiedEvent("/path/blah.py")
+        file_mod_event = FileModifiedEvent("/path/blah.txt")
+        dir_mov_event = DirMovedEvent("/path/blah.py", "/path/blah")
+        file_mov_event = FileMovedEvent("/path/blah.txt", "/path/blah")
 
         all_events = [
             dir_mod_event,

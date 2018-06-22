@@ -72,9 +72,11 @@ elif platform.is_darwin():
     except:
         try:
             from .kqueue import KqueueObserver as Observer
+
             warnings.warn("Failed to import fsevents. Fall back to kqueue")
         except:
             from .polling import PollingObserver as Observer
+
             warnings.warn("Failed to import fsevents and kqueue. Fall back to polling.")
 
 elif platform.is_bsd():
@@ -87,6 +89,7 @@ elif platform.is_windows():
         from .read_directory_changes import WindowsApiObserver as Observer
     except:
         from .polling import PollingObserver as Observer
+
         warnings.warn("Failed to import read_directory_changes. Fall back to polling.")
 
 else:

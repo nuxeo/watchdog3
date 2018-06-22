@@ -38,7 +38,7 @@ from watchdog.events import (
     DirDeletedEvent,
     DirModifiedEvent,
     DirCreatedEvent,
-    DirMovedEvent
+    DirMovedEvent,
 )
 
 from watchdog.utils.dirsnapshot import DirectorySnapshot
@@ -46,7 +46,7 @@ from watchdog.observers.api import (
     BaseObserver,
     EventEmitter,
     DEFAULT_EMITTER_TIMEOUT,
-    DEFAULT_OBSERVER_TIMEOUT
+    DEFAULT_OBSERVER_TIMEOUT,
 )
 
 
@@ -78,11 +78,9 @@ class FSEventsEmitter(EventEmitter):
 
     def queue_events(self, timeout):
         with self._lock:
-            if not self.watch.is_recursive\
-                and self.watch.path not in self.pathnames:
+            if not self.watch.is_recursive and self.watch.path not in self.pathnames:
                 return
-            new_snapshot = DirectorySnapshot(self.watch.path,
-                                             self.watch.is_recursive)
+            new_snapshot = DirectorySnapshot(self.watch.path, self.watch.is_recursive)
             events = new_snapshot - self.snapshot
             self.snapshot = new_snapshot
 
@@ -108,6 +106,7 @@ class FSEventsEmitter(EventEmitter):
 
     def run(self):
         try:
+
             def callback(pathnames, flags, emitter=self):
                 emitter.queue_events(emitter.timeout)
 
@@ -124,7 +123,7 @@ class FSEventsEmitter(EventEmitter):
 
             # INFO: FSEvents reports directory notifications recursively
             # by default, so we do not need to add subdirectory paths.
-            #pathnames = set([self.watch.path])
+            # pathnames = set([self.watch.path])
             # if self.watch.is_recursive:
             #    for root, directory_names, _ in os.walk(self.watch.path):
             #        for directory_name in directory_names:
@@ -132,20 +131,15 @@ class FSEventsEmitter(EventEmitter):
             #                            os.path.join(root, directory_name))
             #            pathnames.add(full_path)
             self.pathnames = [self.watch.path]
-            _fsevents.add_watch(self,
-                                self.watch,
-                                callback,
-                                self.pathnames)
+            _fsevents.add_watch(self, self.watch, callback, self.pathnames)
             _fsevents.read_events(self)
         except Exception as e:
             pass
 
 
 class FSEventsObserver(BaseObserver):
-
     def __init__(self, timeout=DEFAULT_OBSERVER_TIMEOUT):
-        BaseObserver.__init__(self, emitter_class=FSEventsEmitter,
-                              timeout=timeout)
+        BaseObserver.__init__(self, emitter_class=FSEventsEmitter, timeout=timeout)
 
     def schedule(self, event_handler, path, recursive=False):
         # Python 2/3 compat
@@ -157,8 +151,8 @@ class FSEventsObserver(BaseObserver):
         # Fix for issue #26: Trace/BPT error when given a unicode path
         # string. https://github.com/gorakhargosh/watchdog/issues#issue/26
         if isinstance(path, str_class):
-            #path = unicode(path, 'utf-8')
-            path = unicodedata.normalize('NFC', path)
+            # path = unicode(path, 'utf-8')
+            path = unicodedata.normalize("NFC", path)
             # We only encode the path in Python 2 for backwards compatibility.
             # On Python 3 we want the path to stay as unicode if possible for
             # the sake of path matching not having to be rewritten to use the
@@ -168,5 +162,5 @@ class FSEventsObserver(BaseObserver):
             # _watchdog_fsevents.so was not changed for the sake of backwards
             # compatibility.
             if sys.version_info < (3,):
-                path = path.encode('utf-8')
+                path = path.encode("utf-8")
         return BaseObserver.schedule(self, event_handler, path, recursive)

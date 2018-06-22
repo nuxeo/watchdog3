@@ -21,55 +21,58 @@ import time
 import unittest
 
 from watchdog.events import FileModifiedEvent, LoggingEventHandler
-from watchdog.observers.api import (BaseObserver, EventDispatcher, EventEmitter,
-                                    EventQueue, ObservedWatch)
+from watchdog.observers.api import (
+    BaseObserver,
+    EventDispatcher,
+    EventEmitter,
+    EventQueue,
+    ObservedWatch,
+)
 
 
 class TestObservedWatch(unittest.TestCase):
-
     def test___eq__(self):
-        watch1 = ObservedWatch('/foobar', True)
-        watch2 = ObservedWatch('/foobar', True)
-        watch_ne1 = ObservedWatch('/foo', True)
-        watch_ne2 = ObservedWatch('/foobar', False)
+        watch1 = ObservedWatch("/foobar", True)
+        watch2 = ObservedWatch("/foobar", True)
+        watch_ne1 = ObservedWatch("/foo", True)
+        watch_ne2 = ObservedWatch("/foobar", False)
 
         self.assertTrue(watch1.__eq__(watch2))
         self.assertFalse(watch1.__eq__(watch_ne1))
         self.assertFalse(watch1.__eq__(watch_ne2))
 
     def test___ne__(self):
-        watch1 = ObservedWatch('/foobar', True)
-        watch2 = ObservedWatch('/foobar', True)
-        watch_ne1 = ObservedWatch('/foo', True)
-        watch_ne2 = ObservedWatch('/foobar', False)
+        watch1 = ObservedWatch("/foobar", True)
+        watch2 = ObservedWatch("/foobar", True)
+        watch_ne1 = ObservedWatch("/foo", True)
+        watch_ne2 = ObservedWatch("/foobar", False)
 
         self.assertFalse(watch1.__ne__(watch2))
         self.assertTrue(watch1.__ne__(watch_ne1))
         self.assertTrue(watch1.__ne__(watch_ne2))
 
     def test___repr__(self):
-        observed_watch = ObservedWatch('/foobar', True)
-        self.assertEqual('<ObservedWatch: path=' + '/foobar' + ', is_recursive=True>',
-                         observed_watch.__repr__())
+        observed_watch = ObservedWatch("/foobar", True)
+        self.assertEqual(
+            "<ObservedWatch: path=" + "/foobar" + ", is_recursive=True>",
+            observed_watch.__repr__(),
+        )
 
 
 class TestEventEmitter(unittest.TestCase):
-
     def test___init__(self):
         event_queue = EventQueue()
-        watch = ObservedWatch('/foobar', True)
+        watch = ObservedWatch("/foobar", True)
         event_emitter = EventEmitter(event_queue, watch, timeout=1)
-        event_emitter.queue_event(FileModifiedEvent('/foobar/blah'))
+        event_emitter.queue_event(FileModifiedEvent("/foobar/blah"))
 
 
 class TestEventDispatcher(unittest.TestCase):
-
     def test_dispatch_event(self):
-        event = FileModifiedEvent('/foobar')
-        watch = ObservedWatch('/path', True)
+        event = FileModifiedEvent("/foobar")
+        watch = ObservedWatch("/path", True)
 
         class TestableEventDispatcher(EventDispatcher):
-
             def dispatch_event(self, event, watch):
                 assert True
 
@@ -81,22 +84,20 @@ class TestEventDispatcher(unittest.TestCase):
 
 
 class TestBaseObserver(unittest.TestCase):
-
     def test_basic(self):
         observer = BaseObserver(EventEmitter)
         handler = LoggingEventHandler()
 
-        watch = observer.schedule(handler, '/foobar', True)
+        watch = observer.schedule(handler, "/foobar", True)
         observer.add_handler_for_watch(handler, watch)
         observer.add_handler_for_watch(handler, watch)
         observer.remove_handler_for_watch(handler, watch)
-        self.assertRaises(KeyError,
-                          observer.remove_handler_for_watch, handler, watch)
+        self.assertRaises(KeyError, observer.remove_handler_for_watch, handler, watch)
         observer.unschedule(watch)
         self.assertRaises(KeyError, observer.unschedule, watch)
 
-        watch = observer.schedule(handler, '/foobar', True)
-        observer.event_queue.put((FileModifiedEvent('/foobar'), watch))
+        watch = observer.schedule(handler, "/foobar", True)
+        observer.event_queue.put((FileModifiedEvent("/foobar"), watch))
         observer.start()
         time.sleep(1)
         observer.unschedule_all()

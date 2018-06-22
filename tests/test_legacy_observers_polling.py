@@ -26,13 +26,7 @@ import pytest
 import queue
 
 from time import sleep
-from .shell import (
-    mkdir,
-    mkdtemp,
-    touch,
-    rm,
-    mv
-)
+from .shell import mkdir, mkdtemp, touch, rm, mv
 
 from watchdog.events import (
     DirModifiedEvent,
@@ -42,7 +36,7 @@ from watchdog.events import (
     FileModifiedEvent,
     DirMovedEvent,
     FileDeletedEvent,
-    DirDeletedEvent
+    DirDeletedEvent,
 )
 
 from watchdog.observers.api import ObservedWatch
@@ -61,7 +55,6 @@ def p(*args):
 
 
 class TestPollingEmitter(unittest.TestCase):
-
     def setUp(self):
         self.event_queue = queue.Queue()
         self.watch = ObservedWatch(temp_dir, True)
@@ -74,23 +67,23 @@ class TestPollingEmitter(unittest.TestCase):
         SLEEP_TIME = 0.4
         self.emitter.start()
         sleep(SLEEP_TIME)
-        mkdir(p('project'))
+        mkdir(p("project"))
         sleep(SLEEP_TIME)
-        mkdir(p('project', 'blah'))
+        mkdir(p("project", "blah"))
         sleep(SLEEP_TIME)
-        touch(p('afile'))
+        touch(p("afile"))
         sleep(SLEEP_TIME)
-        touch(p('fromfile'))
+        touch(p("fromfile"))
         sleep(SLEEP_TIME)
-        mv(p('fromfile'), p('project', 'tofile'))
+        mv(p("fromfile"), p("project", "tofile"))
         sleep(SLEEP_TIME)
-        touch(p('afile'))
+        touch(p("afile"))
         sleep(SLEEP_TIME)
-        mv(p('project', 'blah'), p('project', 'boo'))
+        mv(p("project", "blah"), p("project", "boo"))
         sleep(SLEEP_TIME)
-        rm(p('project'), recursive=True)
+        rm(p("project"), recursive=True)
         sleep(SLEEP_TIME)
-        rm(p('afile'))
+        rm(p("afile"))
         sleep(SLEEP_TIME)
         self.emitter.stop()
 
@@ -102,34 +95,27 @@ class TestPollingEmitter(unittest.TestCase):
         expected = set(
             [
                 DirModifiedEvent(p()),
-                DirCreatedEvent(p('project')),
-
-                DirModifiedEvent(p('project')),
-                DirCreatedEvent(p('project', 'blah')),
-
-                FileCreatedEvent(p('afile')),
+                DirCreatedEvent(p("project")),
+                DirModifiedEvent(p("project")),
+                DirCreatedEvent(p("project", "blah")),
+                FileCreatedEvent(p("afile")),
                 DirModifiedEvent(p()),
-
-                FileCreatedEvent(p('fromfile')),
+                FileCreatedEvent(p("fromfile")),
                 DirModifiedEvent(p()),
-
                 DirModifiedEvent(p()),
-                FileModifiedEvent(p('afile')),
-
-                DirModifiedEvent(p('project')),
-
+                FileModifiedEvent(p("afile")),
+                DirModifiedEvent(p("project")),
                 DirModifiedEvent(p()),
-                FileDeletedEvent(p('project', 'tofile')),
-                DirDeletedEvent(p('project', 'boo')),
-                DirDeletedEvent(p('project')),
-
+                FileDeletedEvent(p("project", "tofile")),
+                DirDeletedEvent(p("project", "boo")),
+                DirDeletedEvent(p("project")),
                 DirModifiedEvent(p()),
-                FileDeletedEvent(p('afile')),
+                FileDeletedEvent(p("afile")),
             ]
         )
 
-        expected.add(FileMovedEvent(p('fromfile'), p('project', 'tofile')))
-        expected.add(DirMovedEvent(p('project', 'blah'), p('project', 'boo')))
+        expected.add(FileMovedEvent(p("fromfile"), p("project", "tofile")))
+        expected.add(DirMovedEvent(p("project", "blah"), p("project", "boo")))
 
         got = set()
         while True:
@@ -141,11 +127,11 @@ class TestPollingEmitter(unittest.TestCase):
 
         self.assertEqual(expected, got)
 
-    @pytest.mark.skip('WATCHDOG-5')
+    @pytest.mark.skip("WATCHDOG-5")
     def test_delete_watched_dir(self):
         SLEEP_TIME = 0.4
         self.emitter.start()
-        rm(p(''), recursive=True)
+        rm(p(""), recursive=True)
         sleep(SLEEP_TIME)
         self.emitter.stop()
 
@@ -154,11 +140,7 @@ class TestPollingEmitter(unittest.TestCase):
         #   * unordered
         #   * non-unique
         # A multiset! Python's collections.Counter class seems appropriate.
-        expected = set(
-            [
-                DirDeletedEvent(os.path.dirname(p(''))),
-            ]
-        )
+        expected = set([DirDeletedEvent(os.path.dirname(p("")))])
 
         got = set()
         while True:

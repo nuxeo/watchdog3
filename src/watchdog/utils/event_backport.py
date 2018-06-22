@@ -6,7 +6,6 @@ from threading import Condition, Lock
 
 
 class Event(object):
-
     def __init__(self,):
         self.__cond = Condition(Lock())
         self.__flag = False

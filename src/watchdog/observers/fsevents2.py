@@ -34,7 +34,7 @@ from watchdog.events import (
     DirDeletedEvent,
     DirModifiedEvent,
     DirCreatedEvent,
-    DirMovedEvent
+    DirMovedEvent,
 )
 from watchdog.observers.api import (
     BaseObserver,
@@ -88,15 +88,20 @@ class FSEventsQueue(Thread):
         self._run_loop = None
 
         if isinstance(path, bytes):
-            path = path.decode('utf-8')
-        self._path = unicodedata.normalize('NFC', path)
+            path = path.decode("utf-8")
+        self._path = unicodedata.normalize("NFC", path)
 
         context = None
         latency = 1.0
         self._stream_ref = FSEventStreamCreate(
-            kCFAllocatorDefault, self._callback, context, [self._path],
-            kFSEventStreamEventIdSinceNow, latency,
-            kFSEventStreamCreateFlagNoDefer | kFSEventStreamCreateFlagFileEvents)
+            kCFAllocatorDefault,
+            self._callback,
+            context,
+            [self._path],
+            kFSEventStreamEventIdSinceNow,
+            latency,
+            kFSEventStreamCreateFlagNoDefer | kFSEventStreamCreateFlagFileEvents,
+        )
         if self._stream_ref is None:
             raise IOError("FSEvents. Could not create stream.")
 
@@ -104,7 +109,8 @@ class FSEventsQueue(Thread):
         pool = AppKit.NSAutoreleasePool.alloc().init()
         self._run_loop = CFRunLoopGetCurrent()
         FSEventStreamScheduleWithRunLoop(
-            self._stream_ref, self._run_loop, kCFRunLoopDefaultMode)
+            self._stream_ref, self._run_loop, kCFRunLoopDefaultMode
+        )
         if not FSEventStreamStart(self._stream_ref):
             FSEventStreamInvalidate(self._stream_ref)
             FSEventStreamRelease(self._stream_ref)
@@ -122,9 +128,13 @@ class FSEventsQueue(Thread):
         if self._run_loop is not None:
             CFRunLoopStop(self._run_loop)
 
-    def _callback(self, streamRef, clientCallBackInfo, numEvents, eventPaths, eventFlags, eventIDs):
-        events = [NativeEvent(path, flags, _id) for path, flags, _id in
-                  zip(eventPaths, eventFlags, eventIDs)]
+    def _callback(
+        self, streamRef, clientCallBackInfo, numEvents, eventPaths, eventFlags, eventIDs
+    ):
+        events = [
+            NativeEvent(path, flags, _id)
+            for path, flags, _id in zip(eventPaths, eventFlags, eventIDs)
+        ]
         logger.debug("FSEvents callback. Got %d events:" % numEvents)
         for e in events:
             logger.debug(e)
@@ -158,17 +168,29 @@ class NativeEvent(object):
 
     @property
     def _event_type(self):
-        if self.is_created: return "Created"
-        if self.is_removed: return "Removed"
-        if self.is_renamed: return "Renamed"
-        if self.is_modified: return "Modified"
-        if self.is_inode_meta_mod: return "InodeMetaMod"
-        if self.is_xattr_mod: return "XattrMod"
+        if self.is_created:
+            return "Created"
+        if self.is_removed:
+            return "Removed"
+        if self.is_renamed:
+            return "Renamed"
+        if self.is_modified:
+            return "Modified"
+        if self.is_inode_meta_mod:
+            return "InodeMetaMod"
+        if self.is_xattr_mod:
+            return "XattrMod"
         return "Unknown"
 
     def __repr__(self):
-        s ="<NativeEvent: path=%s, type=%s, is_dir=%s, flags=%s, id=%s>"
-        return s % (repr(self.path), self._event_type, self.is_directory, hex(self.flags), self.event_id)
+        s = "<NativeEvent: path=%s, type=%s, is_dir=%s, flags=%s, id=%s>"
+        return s % (
+            repr(self.path),
+            self._event_type,
+            self.is_directory,
+            hex(self.flags),
+            self.event_id,
+        )
 
 
 class FSEventsEmitter(EventEmitter):
@@ -201,13 +223,18 @@ class FSEventsEmitter(EventEmitter):
                 # don't) making it possible to pair up the two events coming
                 # from a singe move operation. (None of this is documented!)
                 # Otherwise, guess whether file was moved in or out.
-                #TODO: handle id wrapping
-                if (i+1 < len(events) and events[i+1].is_renamed and
-                        events[i+1].event_id == event.event_id + 1):
+                # TODO: handle id wrapping
+                if (
+                    i + 1 < len(events)
+                    and events[i + 1].is_renamed
+                    and events[i + 1].event_id == event.event_id + 1
+                ):
                     cls = DirMovedEvent if event.is_directory else FileMovedEvent
-                    self.queue_event(cls(event.path, events[i+1].path))
+                    self.queue_event(cls(event.path, events[i + 1].path))
                     self.queue_event(DirModifiedEvent(os.path.dirname(event.path)))
-                    self.queue_event(DirModifiedEvent(os.path.dirname(events[i+1].path)))
+                    self.queue_event(
+                        DirModifiedEvent(os.path.dirname(events[i + 1].path))
+                    )
                     i += 1
                 elif os.path.exists(event.path):
                     cls = DirCreatedEvent if event.is_directory else FileCreatedEvent
@@ -217,9 +244,9 @@ class FSEventsEmitter(EventEmitter):
                     cls = DirDeletedEvent if event.is_directory else FileDeletedEvent
                     self.queue_event(cls(event.path))
                     self.queue_event(DirModifiedEvent(os.path.dirname(event.path)))
-                #TODO: generate events for tree
+                # TODO: generate events for tree
 
-            elif event.is_modified or event.is_inode_meta_mod or event.is_xattr_mod :
+            elif event.is_modified or event.is_inode_meta_mod or event.is_xattr_mod:
                 cls = DirModifiedEvent if event.is_directory else FileModifiedEvent
                 self.queue_event(cls(event.path))
 

@@ -26,8 +26,10 @@ from .shell import mkdtemp, rm
 @pytest.fixture()
 def tmpdir(request):
     path = os.path.realpath(mkdtemp())
+
     def finalizer():
         rm(path, recursive=True)
+
     request.addfinalizer(finalizer)
     return path
 

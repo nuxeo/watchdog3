@@ -82,13 +82,13 @@ def touch(path, times=None):
     if os.path.isdir(path):
         os.utime(path, times)
     else:
-        with open(path, 'ab'):
+        with open(path, "ab"):
             os.utime(path, times)
 
 
 def truncate(path):
     """Truncates a file."""
-    with open(path, 'wb'):
+    with open(path, "wb"):
         os.utime(path, None)
 
 
@@ -106,5 +106,5 @@ def mkdtemp():
     return tempfile.mkdtemp()
 
 
-def ls(path='.'):
+def ls(path="."):
     return os.listdir(path)
