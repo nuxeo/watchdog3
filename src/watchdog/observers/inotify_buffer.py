@@ -16,9 +16,10 @@
 # limitations under the License.
 
 import logging
-from watchdog.utils import BaseThread
-from watchdog.utils.delayed_queue import DelayedQueue
-from watchdog.observers.inotify_c import Inotify
+
+from ..observers.inotify_c import Inotify
+from ..utils import BaseThread
+from ..utils.delayed_queue import DelayedQueue
 
 logger = logging.getLogger(__name__)
 

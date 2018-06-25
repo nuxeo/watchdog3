@@ -28,17 +28,15 @@
 .. _homebrew: http://mxcl.github.com/homebrew/
 .. _inotify-tools: http://github.com/rvoicilas/inotify-tools
 .. _jnotify: http://jnotify.sourceforge.net/
-.. _nose: http://nose.readthedocs.org/en/latest/
 .. _pip: http://pypi.org/project/pip
 .. _pnotify: http://mark.heily.com/pnotify
 .. _pyfilesystem: http://code.google.com/p/pyfilesystem
 .. _pyinotify: http://github.com/seb-m/pyinotify
 .. _Python: http://python.org
 .. _pywin32: http://sourceforge.net/projects/pywin32/
-.. _select_backport: http://pypi.org/project/select_backport/
 .. _sphinx: http://sphinx.pocoo.org/
 .. _treewalker: http://github.com/jbd/treewatcher
 .. _unison fsmonitor: https://webdav.seas.upenn.edu/viewvc/unison/trunk/src/fsmonitor.py?view=markup&pathrev=471
 .. _XCode: http://developer.apple.com/technologies/tools/xcode.html
-.. _zc.buildout: http://www.buildout.org/
+
 .. _pathtools: http://github.com/gorakhargosh/pathtools

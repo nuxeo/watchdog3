@@ -56,8 +56,8 @@ Class          Platforms                        Note
 """
 
 import warnings
-from watchdog.utils import platform
-from watchdog.utils import UnsupportedLibc
+
+from ..utils import UnsupportedLibc, platform
 
 if platform.is_linux():
     try:

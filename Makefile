@@ -63,12 +63,6 @@ develop: submodules bin/python
 submodules:
 	@git submodule update --init --recursive
 
-bin/buildout: buildout.cfg setup.py
-	@python tools/bootstrap.py --distribute
-
-bin/python: bin/buildout
-	@bin/buildout
-
 push:
 	@echo "Pushing repository to remote:google"
 	@git push google master

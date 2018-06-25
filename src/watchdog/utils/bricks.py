@@ -37,8 +37,9 @@ Classes
 
 """
 
-import sys
 import collections
+import sys
+
 from .compat import queue
 
 

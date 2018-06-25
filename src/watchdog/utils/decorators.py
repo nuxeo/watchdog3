@@ -15,9 +15,9 @@ decorators:
 """
 
 import functools
-import warnings
-import threading
 import sys
+import threading
+import warnings
 
 
 def synchronized(lock=None):

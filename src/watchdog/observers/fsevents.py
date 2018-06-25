@@ -23,31 +23,17 @@
 :platforms: Mac OS X
 """
 
-from __future__ import with_statement
-
+import _watchdog_fsevents as _fsevents
 import sys
 import threading
 import unicodedata
-import _watchdog_fsevents as _fsevents
 
-from watchdog.events import (
-    FileDeletedEvent,
-    FileModifiedEvent,
-    FileCreatedEvent,
-    FileMovedEvent,
-    DirDeletedEvent,
-    DirModifiedEvent,
-    DirCreatedEvent,
-    DirMovedEvent,
-)
-
-from watchdog.utils.dirsnapshot import DirectorySnapshot
-from watchdog.observers.api import (
-    BaseObserver,
-    EventEmitter,
-    DEFAULT_EMITTER_TIMEOUT,
-    DEFAULT_OBSERVER_TIMEOUT,
-)
+from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
+                      DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
+                      FileModifiedEvent, FileMovedEvent)
+from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
+                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..utils.dirsnapshot import DirectorySnapshot
 
 
 class FSEventsEmitter(EventEmitter):

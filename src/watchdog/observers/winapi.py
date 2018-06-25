@@ -36,10 +36,7 @@
 # Portions of this code were taken from pyfilesystem, which uses the above
 # new BSD license.
 
-from __future__ import with_statement
-
 import ctypes.wintypes
-import struct
 from functools import reduce
 
 try:

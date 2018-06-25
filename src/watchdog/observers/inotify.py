@@ -68,32 +68,17 @@ Some extremely useful articles and documentation:
 
 """
 
-from __future__ import with_statement
-
 import os
 import threading
+
 from .inotify_buffer import InotifyBuffer
-
-from watchdog.observers.api import (
-    EventEmitter,
-    BaseObserver,
-    DEFAULT_EMITTER_TIMEOUT,
-    DEFAULT_OBSERVER_TIMEOUT,
-)
-
-from watchdog.events import (
-    DirDeletedEvent,
-    DirModifiedEvent,
-    DirMovedEvent,
-    DirCreatedEvent,
-    FileDeletedEvent,
-    FileModifiedEvent,
-    FileMovedEvent,
-    FileCreatedEvent,
-    generate_sub_moved_events,
-    generate_sub_created_events,
-)
-from watchdog.utils import unicode_paths
+from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
+                      DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
+                      FileModifiedEvent, FileMovedEvent,
+                      generate_sub_created_events, generate_sub_moved_events)
+from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
+                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..utils import unicode_paths
 
 
 class InotifyEmitter(EventEmitter):

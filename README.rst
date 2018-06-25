@@ -119,8 +119,7 @@ Dependencies
 ------------
 1. Python 2.6 or above.
 2. pathtools_
-3. select_backport_ (select.kqueue replacement for 2.6 on BSD/Mac OS X)
-4. XCode_ (only on Mac OS X)
+3. XCode_ (only on Mac OS X)
 
 
 Licensing
@@ -164,7 +163,6 @@ to do:
 .. _repository: https://github.com/nuxeo/watchdog3
 
 .. _homebrew: http://mxcl.github.com/homebrew/
-.. _select_backport: http://pypi.python.org/pypi/select_backport
 .. _XCode: http://developer.apple.com/technologies/tools/xcode.html
 .. _pathtools: http://github.com/gorakhargosh/pathtools
 

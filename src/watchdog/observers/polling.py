@@ -35,29 +35,17 @@ Classes
    :special-members:
 """
 
-from __future__ import with_statement
 import os
 import threading
 from functools import partial
-from watchdog.utils import stat as default_stat
-from watchdog.utils.dirsnapshot import DirectorySnapshot, DirectorySnapshotDiff
-from watchdog.observers.api import (
-    EventEmitter,
-    BaseObserver,
-    DEFAULT_OBSERVER_TIMEOUT,
-    DEFAULT_EMITTER_TIMEOUT,
-)
 
-from watchdog.events import (
-    DirMovedEvent,
-    DirDeletedEvent,
-    DirCreatedEvent,
-    DirModifiedEvent,
-    FileMovedEvent,
-    FileDeletedEvent,
-    FileCreatedEvent,
-    FileModifiedEvent,
-)
+from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
+                      DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
+                      FileModifiedEvent, FileMovedEvent)
+from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
+                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..utils import stat as default_stat
+from ..utils.dirsnapshot import DirectorySnapshot, DirectorySnapshotDiff
 
 
 class PollingEmitter(EventEmitter):

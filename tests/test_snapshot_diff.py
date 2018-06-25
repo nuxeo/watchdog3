@@ -15,10 +15,11 @@
 # limitations under the License.
 
 import time
-from .shell import mkdir, touch, mv
-from watchdog.utils.dirsnapshot import DirectorySnapshot
-from watchdog.utils.dirsnapshot import DirectorySnapshotDiff
+
 from watchdog.utils import platform
+from watchdog.utils.dirsnapshot import DirectorySnapshot, DirectorySnapshotDiff
+
+from .shell import mkdir, mv, touch
 
 
 def wait():

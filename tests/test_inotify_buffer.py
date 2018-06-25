@@ -14,12 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import unicode_literals
 import os
 import random
+
 import pytest
-from .shell import mkdir, touch, mv, rm
 from watchdog.utils import platform
+
+from .shell import mkdir, mv, rm, touch
 
 pytestmark = pytest.mark.skipif(not platform.is_linux(), reason="")
 if platform.is_linux():

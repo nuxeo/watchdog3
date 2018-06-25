@@ -15,6 +15,7 @@
 # limitations under the License.
 
 from time import monotonic
+
 from watchdog.utils.delayed_queue import DelayedQueue
 
 

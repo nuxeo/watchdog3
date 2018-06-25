@@ -14,17 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import unicode_literals
 import os
 import time
-import pytest
-from queue import Queue
 from functools import partial
-from .shell import mkdir, touch, mv, rm, mkdtemp
-from watchdog.utils import platform
-from watchdog.utils.unicode_paths import str_cls
+from queue import Queue
+
+import pytest
 from watchdog.events import *
 from watchdog.observers.api import ObservedWatch
+from watchdog.utils import platform
+from watchdog.utils.unicode_paths import str_cls
+
+from .shell import mkdir, mkdtemp, mv, rm, touch
 
 pytestmark = pytest.mark.skipif(
     not platform.is_linux() and not platform.is_darwin(), reason=""

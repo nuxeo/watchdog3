@@ -18,6 +18,7 @@
 # limitations under the License.
 
 import unittest
+
 from watchdog.utils.bricks import SkipRepeatsQueue
 
 

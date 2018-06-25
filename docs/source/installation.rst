@@ -22,7 +22,7 @@ Installing from source tarballs
 
 .. parsed-literal::
 
-    $ wget -c http://pypi.python.org/packages/source/w/watchdog/watchdog-|project_version|.tar.gz
+    $ wget -c http://pypi.python.org/packages/source/w/watchdog3/watchdog-|project_version|.tar.gz
     $ tar zxvf |project_name|-|project_version|.tar.gz
     $ cd |project_name|-|project_version|
     $ python setup.py install
@@ -51,9 +51,6 @@ using.
 | XCode_              |             |             |     Yes     |             |
 +---------------------+-------------+-------------+-------------+-------------+
 | argparse_           |     Yes     |     Yes     |     Yes     |     Yes     |
-+---------------------+-------------+-------------+-------------+-------------+
-| select_backport_    |             |             |     Yes     |     Yes     |
-| (Python 2.6)        |             |             |             |             |
 +---------------------+-------------+-------------+-------------+-------------+
 | pathtools_          |     Yes     |     Yes     |     Yes     |     Yes     |
 +---------------------+-------------+-------------+-------------+-------------+

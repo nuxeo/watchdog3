@@ -18,39 +18,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import with_statement
-
-import ctypes
-import threading
 import os.path
+import threading
 import time
 
-from watchdog.events import (
-    DirCreatedEvent,
-    DirDeletedEvent,
-    DirMovedEvent,
-    DirModifiedEvent,
-    FileCreatedEvent,
-    FileDeletedEvent,
-    FileMovedEvent,
-    FileModifiedEvent,
-    generate_sub_moved_events,
-    generate_sub_created_events,
-)
-
-from watchdog.observers.api import (
-    EventEmitter,
-    BaseObserver,
-    DEFAULT_OBSERVER_TIMEOUT,
-    DEFAULT_EMITTER_TIMEOUT,
-)
-
-from watchdog.observers.winapi import (
-    read_events,
-    get_directory_handle,
-    close_directory_handle,
-)
-
+from ..events import (DirCreatedEvent, DirModifiedEvent, DirMovedEvent,
+                      FileCreatedEvent, FileDeletedEvent, FileModifiedEvent,
+                      FileMovedEvent, generate_sub_created_events,
+                      generate_sub_moved_events)
+from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
+                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..observers.winapi import (close_directory_handle, get_directory_handle,
+                                read_events)
 
 # HACK:
 WATCHDOG_TRAVERSE_MOVED_DIR_DELAY = 1  # seconds

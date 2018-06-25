@@ -16,17 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from __future__ import with_statement
-import os
-import errno
-import struct
-import threading
 import ctypes
 import ctypes.util
+import errno
+import os
+import struct
+import threading
+from ctypes import c_char_p, c_int, c_uint32
 from functools import reduce
-from ctypes import c_int, c_char_p, c_uint32
-from watchdog.utils import has_attribute
-from watchdog.utils import UnsupportedLibc
+
+from ..utils import UnsupportedLibc, has_attribute
 
 
 def _load_libc():

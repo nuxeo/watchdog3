@@ -34,18 +34,10 @@ Classes
 import os
 import sys
 import threading
-import watchdog.utils.platform
-from watchdog.utils.compat import Event
-from collections import namedtuple
 
+from ..utils.compat import Event
 
-if sys.version_info[0] == 2 and platform.is_windows():
-    # st_ino is not implemented in os.stat on this platform
-    import win32stat
-
-    stat = win32stat.stat
-else:
-    stat = os.stat
+stat = os.stat
 
 
 def has_attribute(ob, attribute):

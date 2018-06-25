@@ -23,10 +23,10 @@
 """
 
 import os.path
-import sys
 import stat
-import time
 import subprocess
+import sys
+import time
 from fnmatch import fnmatch
 
 

@@ -20,61 +20,38 @@
 :platforms: Mac OS X
 """
 
-import os
 import logging
+import os
 import unicodedata
 from threading import Thread
-from watchdog.utils.compat import queue
-
-from watchdog.events import (
-    FileDeletedEvent,
-    FileModifiedEvent,
-    FileCreatedEvent,
-    FileMovedEvent,
-    DirDeletedEvent,
-    DirModifiedEvent,
-    DirCreatedEvent,
-    DirMovedEvent,
-)
-from watchdog.observers.api import (
-    BaseObserver,
-    EventEmitter,
-    DEFAULT_EMITTER_TIMEOUT,
-    DEFAULT_OBSERVER_TIMEOUT,
-)
 
 # pyobjc
 import AppKit
-from FSEvents import (
-    FSEventStreamCreate,
-    CFRunLoopGetCurrent,
-    FSEventStreamScheduleWithRunLoop,
-    FSEventStreamStart,
-    CFRunLoopRun,
-    CFRunLoopStop,
-    FSEventStreamStop,
-    FSEventStreamInvalidate,
-    FSEventStreamRelease,
-)
+from FSEvents import (CFRunLoopGetCurrent, CFRunLoopRun, CFRunLoopStop,
+                      FSEventStreamCreate, FSEventStreamInvalidate,
+                      FSEventStreamRelease, FSEventStreamScheduleWithRunLoop,
+                      FSEventStreamStart, FSEventStreamStop,
+                      kCFAllocatorDefault, kCFRunLoopDefaultMode,
+                      kFSEventStreamCreateFlagFileEvents,
+                      kFSEventStreamCreateFlagNoDefer,
+                      kFSEventStreamEventFlagItemChangeOwner,
+                      kFSEventStreamEventFlagItemCreated,
+                      kFSEventStreamEventFlagItemFinderInfoMod,
+                      kFSEventStreamEventFlagItemInodeMetaMod,
+                      kFSEventStreamEventFlagItemIsDir,
+                      kFSEventStreamEventFlagItemIsSymlink,
+                      kFSEventStreamEventFlagItemModified,
+                      kFSEventStreamEventFlagItemRemoved,
+                      kFSEventStreamEventFlagItemRenamed,
+                      kFSEventStreamEventFlagItemXattrMod,
+                      kFSEventStreamEventIdSinceNow)
 
-from FSEvents import (
-    kCFAllocatorDefault,
-    kCFRunLoopDefaultMode,
-    kFSEventStreamEventIdSinceNow,
-    kFSEventStreamCreateFlagNoDefer,
-    kFSEventStreamCreateFlagFileEvents,
-    kFSEventStreamEventFlagItemCreated,
-    kFSEventStreamEventFlagItemRemoved,
-    kFSEventStreamEventFlagItemInodeMetaMod,
-    kFSEventStreamEventFlagItemRenamed,
-    kFSEventStreamEventFlagItemModified,
-    kFSEventStreamEventFlagItemFinderInfoMod,
-    kFSEventStreamEventFlagItemChangeOwner,
-    kFSEventStreamEventFlagItemXattrMod,
-    kFSEventStreamEventFlagItemIsFile,
-    kFSEventStreamEventFlagItemIsDir,
-    kFSEventStreamEventFlagItemIsSymlink,
-)
+from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
+                      DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
+                      FileModifiedEvent, FileMovedEvent)
+from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
+                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..utils.compat import queue
 
 logger = logging.getLogger(__name__)
 

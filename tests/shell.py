@@ -23,8 +23,6 @@
     :author: yesudeep@google.com (Yesudeep Mangalapilly)
 """
 
-from __future__ import with_statement
-
 import errno
 import os.path
 import shutil

@@ -19,29 +19,18 @@
 
 
 import os
+import queue
 import unittest
+from time import sleep
 
 import pytest
-
-import queue
-
-from time import sleep
-from .shell import mkdir, mkdtemp, touch, rm, mv
-
-from watchdog.events import (
-    DirModifiedEvent,
-    DirCreatedEvent,
-    FileCreatedEvent,
-    FileMovedEvent,
-    FileModifiedEvent,
-    DirMovedEvent,
-    FileDeletedEvent,
-    DirDeletedEvent,
-)
-
+from watchdog.events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
+                             DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
+                             FileModifiedEvent, FileMovedEvent)
 from watchdog.observers.api import ObservedWatch
 from watchdog.observers.polling import PollingEmitter as Emitter
 
+from .shell import mkdir, mkdtemp, mv, rm, touch
 
 temp_dir = mkdtemp()
 
