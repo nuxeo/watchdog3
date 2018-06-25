@@ -155,6 +155,5 @@ setup(
     tests_require=tests_require,
     cmdclass={"build_ext": build_ext, "test": PyTest},
     ext_modules=ext_modules,
-    entry_points={"console_scripts": ["watchmedo = watchdog.watchmedo:main"]},
     zip_safe=False,
 )
