@@ -24,4 +24,5 @@ def test_get():
     inserted = monotonic()
     q.get()
     elapsed = monotonic() - inserted
-    assert 2.01 > elapsed > 1.99
+    # 2.05 instead of 2.01 for slow Windows slaves
+    assert 1.99 < elapsed < 2.05
