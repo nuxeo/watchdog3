@@ -92,8 +92,6 @@ class PyTest(TestCommand):
 
 tests_require = ["pytest", "pytest-cov", "pytest-timeout>=0.3"]
 install_requires = [
-    "pyaml>=17.12.1",
-    "argh>=0.24.1",
     "pathtools>=0.1.1",
     'pyobjc-framework-Cocoa>=4.2.2 ; sys.platform == "darwin"',
     'pyobjc-framework-FSEvents>=4.2.2 ; sys.platform == "darwin"',

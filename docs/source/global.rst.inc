@@ -3,7 +3,7 @@
 .. |author_name| replace:: Nuxeo
 .. |author_email| replace:: maintainers-python@nuxeo.com
 .. |copyright| replace:: Copyright 2018 Nuxeo.
-.. |project_name| replace:: ``watchdog``
+.. |project_name| replace:: ``watchdog3``
 .. |project_version| replace:: 0.8.4
 
 .. _issue tracker: https://github.com/nuxeo/watchdog3/issues
@@ -18,7 +18,6 @@
 .. _GetQueuedCompletionStatus: http://msdn.microsoft.com/en-us/library/aa364986(v=VS.85).aspx
 .. _CreateIoCompletionPort: http://msdn.microsoft.com/en-us/library/aa363862(v=VS.85).aspx
 
-.. _argh: http://pypi.org/project/argh
 .. _argparse: http://pypi.org/project/argparse
 .. _coverage: http://nedbatchelder.com/code/coverage/
 .. _file.monitor: http://github.com/pke/file.monitor

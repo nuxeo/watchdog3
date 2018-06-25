@@ -38,84 +38,6 @@ as command-line arguments and logs events generated:
         observer.join()
 
 
-Shell Utilities
----------------
-Watchdog comes with a utility script called ``watchmedo``.
-Please type ``watchmedo --help`` at the shell prompt to
-know more about this tool.
-
-Here is how you can log the current directory recursively
-for events related only to ``*.py`` and ``*.txt`` files while
-ignoring all directory events:
-    
-.. code-block:: bash
-
-    watchmedo log \
-        --patterns="*.py;*.txt" \
-        --ignore-directories \
-        --recursive \
-        .
-
-You can use the ``shell-command`` subcommand to execute shell commands in
-response to events:
-    
-.. code-block:: bash
-
-    watchmedo shell-command \
-        --patterns="*.py;*.txt" \
-        --recursive \
-        --command='echo "${watch_src_path}"' \
-        .
-
-Please see the help information for these commands by typing:
-
-.. code-block:: bash
-
-    watchmedo [command] --help
-
-
-About ``watchmedo`` Tricks
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-``watchmedo`` can read ``tricks.yaml`` files and execute tricks within them in
-response to file system events. Tricks are actually event handlers that
-subclass ``watchdog.tricks.Trick`` and are written by plugin authors. Trick
-classes are augmented with a few additional features that regular event handlers
-don't need.
-
-An example ``tricks.yaml`` file:
-    
-.. code-block:: yaml
-
-    tricks:
-    - watchdog.tricks.LoggerTrick:
-        patterns: ["*.py", "*.js"]
-    - watchmedo_webtricks.GoogleClosureTrick:
-        patterns: ['*.js']
-        hash_names: true
-        mappings_format: json                  # json|yaml|python
-        mappings_module: app/javascript_mappings
-        suffix: .min.js
-        compilation_level: advanced            # simple|advanced
-        source_directory: app/static/js/
-        destination_directory: app/public/js/
-        files:
-          index-page:
-          - app/static/js/vendor/jquery*.js
-          - app/static/js/base.js
-          - app/static/js/index-page.js
-          about-page:
-          - app/static/js/vendor/jquery*.js
-          - app/static/js/base.js
-          - app/static/js/about-page/**/*.js
-
-The directory containing the ``tricks.yaml`` file will be monitored. Each trick
-class is initialized with its corresponding keys in the ``tricks.yaml`` file as
-arguments and events are fed to an instance of this class as they arrive.
-
-Tricks will be included in the 0.5.0 release. I need community input about them.
-Please file enhancement requests at the `issue tracker`_.
-
-
 Installation
 ------------
 Installing from PyPI using ``pip``:
@@ -149,9 +71,9 @@ ticket at the `issue tracker`_. For general help and questions use the official
 
 Create and activate your virtual environment, then::
 
-    pip install pytest
-    pip install -e .
-    py.test tests
+    python -m pip install --user pytest
+    python -m pip install -e .
+    python -m pytest tests
 
 
 Supported Platforms
@@ -199,7 +121,6 @@ Dependencies
 2. pathtools_
 3. select_backport_ (select.kqueue replacement for 2.6 on BSD/Mac OS X)
 4. XCode_ (only on Mac OS X)
-6. argh_ (only for ``watchmedo`` script)
 
 
 Licensing
@@ -241,11 +162,9 @@ to do:
 .. _stackoverflow: http://stackoverflow.com/questions/tagged/python-watchdog
 .. _mailing list: http://groups.google.com/group/watchdog-python
 .. _repository: https://github.com/nuxeo/watchdog3
-.. _issue tracker: https://github.com/nuxeo/watchdog3/issues
 
 .. _homebrew: http://mxcl.github.com/homebrew/
 .. _select_backport: http://pypi.python.org/pypi/select_backport
-.. _argh: http://pypi.python.org/pypi/argh
 .. _XCode: http://developer.apple.com/technologies/tools/xcode.html
 .. _pathtools: http://github.com/gorakhargosh/pathtools
 

@@ -7,6 +7,7 @@ API changes
 ~~~~~
 
 - `WATCHDOG-1 <https://jira.nuxeo.com/browse/WATCHDOG-1>`__: Ensure ``InotifyEvent.name`` is decoded.
+- `WATCHDOG-11 <https://jira.nuxeo.com/browse/WATCHDOG-11>`__: Removed the ``watchemdo`` utility.
 
 
 0.8.2

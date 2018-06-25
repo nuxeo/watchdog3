@@ -33,13 +33,13 @@ environment. You should get familiar with it.
 Steps to setting up a clean environment:
 
 1. Fork the `code repository`_ into your github_ account. Let us call you
-   ``hackeratti`` for the sake of this example. Replace ``hackeratti``
+   ``hackeratti`` for the sake of this example. Replace ``nuxeo``
    with your own username below.
 
 2. Clone your fork and setup your environment::
 
-    $ git clone --recursive git@github.com:hackeratti/watchdog.git
-    $ cd watchdog
+    $ git clone --recursive git@github.com:nuxeo/watchdog3.git
+    $ cd watchdog3
     $ python tools/bootstrap.py --distribute
     $ bin/buildout
 

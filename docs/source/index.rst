@@ -24,7 +24,7 @@ Easy installation
 -----------------
 You can use pip_ to install |project_name| quickly and easily::
 
-    $ pip install watchdog
+    $ python -m pip install watchdog3
 
 Need more help with installing? See :ref:`installation`.
 

@@ -33,7 +33,7 @@ Installing from the code repository
 ::
 
     $ git clone --recursive git://github.com/nuxeo/watchdog3.git
-    $ cd watchdog
+    $ cd watchdog3
     $ python setup.py install
 
 .. _installation-dependencies:
@@ -49,8 +49,6 @@ using.
 | Dependency (row)    |             |             |   Darwin    |             |
 +=====================+=============+=============+=============+=============+
 | XCode_              |             |             |     Yes     |             |
-+---------------------+-------------+-------------+-------------+-------------+
-| argh_               |     Yes     |     Yes     |     Yes     |     Yes     |
 +---------------------+-------------+-------------+-------------+-------------+
 | argparse_           |     Yes     |     Yes     |     Yes     |     Yes     |
 +---------------------+-------------+-------------+-------------+-------------+
