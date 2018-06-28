@@ -86,7 +86,7 @@ for (def x in slaves) {
                     }
 
                     stage(osi + ' Tests') {
-                        env.PYTHON_DRIVE_VERSION = '3.6.5'
+                        env.PYTHON_DRIVE_VERSION = '3.7.0'
 
                         dir('sources') {
                             try {
