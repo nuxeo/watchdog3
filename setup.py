@@ -92,7 +92,7 @@ class PyTest(TestCommand):
 
 tests_require = ["pytest", "pytest-cov", "pytest-timeout>=0.3"]
 install_requires = [
-    "pathtools>=0.1.1",
+    "pathtools3>=0.2.0",
     'pyobjc-framework-Cocoa>=4.2.2 ; sys.platform == "darwin"',
     'pyobjc-framework-FSEvents>=4.2.2 ; sys.platform == "darwin"',
 ]
@@ -104,7 +104,7 @@ with open("changelog.rst") as f:
     changelog = f.read()
 
 setup(
-    name="watchdog",
+    name="watchdog3",
     version=version.VERSION_STRING,
     description="Filesystem events monitoring",
     long_description=readme + "\n\n" + changelog,

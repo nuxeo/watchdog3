@@ -25,7 +25,8 @@ function check_vars {
 		}
 	}
 	if (-Not ($Env:PYTHON_DIR)) {
-		$Env:PYTHON_DIR = 'C:\Python37-32'
+		$ver_major, $ver_minor = $Env:PYTHON_DRIVE_VERSION.split('.')[0,1]
+		$Env:PYTHON_DIR = "C:\Python$ver_major$ver_minor-32"
 	}
 
 	$Env:STORAGE_DIR = (New-Item -ItemType Directory -Force -Path "$($Env:WORKSPACE)\deploy-dir").FullName

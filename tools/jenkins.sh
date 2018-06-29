@@ -67,7 +67,7 @@ launch_tests() {
 
 verify_python() {
     local version="$1"
-    local cur_version=$(python --version 2>&1 | awk '{print $2}')
+    local cur_version=$(python --version 2>&1 | head -1 | awk '{print $2}')
 
     echo ">>> Verifying Python version in use"
 
