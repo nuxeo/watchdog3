@@ -75,12 +75,25 @@ import threading
 
 from pathtools.path import absolute_path
 
-from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
-                      DirMovedEvent, EVENT_TYPE_CREATED, EVENT_TYPE_DELETED,
-                      EVENT_TYPE_MOVED, FileCreatedEvent, FileDeletedEvent,
-                      FileModifiedEvent, FileMovedEvent)
-from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
-                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    EVENT_TYPE_CREATED,
+    EVENT_TYPE_DELETED,
+    EVENT_TYPE_MOVED,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+)
+from ..observers.api import (
+    BaseObserver,
+    DEFAULT_EMITTER_TIMEOUT,
+    DEFAULT_OBSERVER_TIMEOUT,
+    EventEmitter,
+)
 from ..utils import platform
 from ..utils.dirsnapshot import DirectorySnapshot
 

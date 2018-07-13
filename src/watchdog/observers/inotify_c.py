@@ -451,7 +451,7 @@ class Inotify(object):
         i = 0
         while i + 16 <= len(event_buffer):
             wd, mask, cookie, length = struct.unpack_from("iIII", event_buffer, i)
-            name = event_buffer[i + 16 : i + 16 + length].rstrip(b"\0")
+            name = event_buffer[(i + 16) : (i + 16 + length)].rstrip(b"\0")
             i += 16 + length
             yield wd, mask, cookie, name
 

@@ -27,30 +27,49 @@ from threading import Thread
 
 # pyobjc
 import AppKit
-from FSEvents import (CFRunLoopGetCurrent, CFRunLoopRun, CFRunLoopStop,
-                      FSEventStreamCreate, FSEventStreamInvalidate,
-                      FSEventStreamRelease, FSEventStreamScheduleWithRunLoop,
-                      FSEventStreamStart, FSEventStreamStop,
-                      kCFAllocatorDefault, kCFRunLoopDefaultMode,
-                      kFSEventStreamCreateFlagFileEvents,
-                      kFSEventStreamCreateFlagNoDefer,
-                      kFSEventStreamEventFlagItemChangeOwner,
-                      kFSEventStreamEventFlagItemCreated,
-                      kFSEventStreamEventFlagItemFinderInfoMod,
-                      kFSEventStreamEventFlagItemInodeMetaMod,
-                      kFSEventStreamEventFlagItemIsDir,
-                      kFSEventStreamEventFlagItemIsSymlink,
-                      kFSEventStreamEventFlagItemModified,
-                      kFSEventStreamEventFlagItemRemoved,
-                      kFSEventStreamEventFlagItemRenamed,
-                      kFSEventStreamEventFlagItemXattrMod,
-                      kFSEventStreamEventIdSinceNow)
+from FSEvents import (
+    CFRunLoopGetCurrent,
+    CFRunLoopRun,
+    CFRunLoopStop,
+    FSEventStreamCreate,
+    FSEventStreamInvalidate,
+    FSEventStreamRelease,
+    FSEventStreamScheduleWithRunLoop,
+    FSEventStreamStart,
+    FSEventStreamStop,
+    kCFAllocatorDefault,
+    kCFRunLoopDefaultMode,
+    kFSEventStreamCreateFlagFileEvents,
+    kFSEventStreamCreateFlagNoDefer,
+    kFSEventStreamEventFlagItemChangeOwner,
+    kFSEventStreamEventFlagItemCreated,
+    kFSEventStreamEventFlagItemFinderInfoMod,
+    kFSEventStreamEventFlagItemInodeMetaMod,
+    kFSEventStreamEventFlagItemIsDir,
+    kFSEventStreamEventFlagItemIsSymlink,
+    kFSEventStreamEventFlagItemModified,
+    kFSEventStreamEventFlagItemRemoved,
+    kFSEventStreamEventFlagItemRenamed,
+    kFSEventStreamEventFlagItemXattrMod,
+    kFSEventStreamEventIdSinceNow,
+)
 
-from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
-                      DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
-                      FileModifiedEvent, FileMovedEvent)
-from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
-                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+)
+from ..observers.api import (
+    BaseObserver,
+    DEFAULT_EMITTER_TIMEOUT,
+    DEFAULT_OBSERVER_TIMEOUT,
+    EventEmitter,
+)
 from ..utils.compat import queue
 
 logger = logging.getLogger(__name__)

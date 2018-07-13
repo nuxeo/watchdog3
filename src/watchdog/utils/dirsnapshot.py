@@ -192,7 +192,7 @@ class DirectorySnapshot(object):
     :param stat:
         Use custom stat function that returns a stat structure for path.
         Currently only st_dev, st_ino, st_mode and st_mtime are needed.
-        
+
         A function with the signature ``walker_callback(path, stat_info)``
         which will be called for every entry in the directory tree.
     :param listdir:

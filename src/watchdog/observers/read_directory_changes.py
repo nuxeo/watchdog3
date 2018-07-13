@@ -22,14 +22,24 @@ import os.path
 import threading
 import time
 
-from ..events import (DirCreatedEvent, DirModifiedEvent, DirMovedEvent,
-                      FileCreatedEvent, FileDeletedEvent, FileModifiedEvent,
-                      FileMovedEvent, generate_sub_created_events,
-                      generate_sub_moved_events)
-from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
-                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
-from ..observers.winapi import (close_directory_handle, get_directory_handle,
-                                read_events)
+from ..events import (
+    DirCreatedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+    generate_sub_created_events,
+    generate_sub_moved_events,
+)
+from ..observers.api import (
+    BaseObserver,
+    DEFAULT_EMITTER_TIMEOUT,
+    DEFAULT_OBSERVER_TIMEOUT,
+    EventEmitter,
+)
+from ..observers.winapi import close_directory_handle, get_directory_handle, read_events
 
 # HACK:
 WATCHDOG_TRAVERSE_MOVED_DIR_DELAY = 1  # seconds

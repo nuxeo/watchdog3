@@ -28,11 +28,22 @@ import sys
 import threading
 import unicodedata
 
-from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
-                      DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
-                      FileModifiedEvent, FileMovedEvent)
-from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
-                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+)
+from ..observers.api import (
+    BaseObserver,
+    DEFAULT_EMITTER_TIMEOUT,
+    DEFAULT_OBSERVER_TIMEOUT,
+    EventEmitter,
+)
 from ..utils.dirsnapshot import DirectorySnapshot
 
 
@@ -119,7 +130,7 @@ class FSEventsEmitter(EventEmitter):
             self.pathnames = [self.watch.path]
             _fsevents.add_watch(self, self.watch, callback, self.pathnames)
             _fsevents.read_events(self)
-        except Exception as e:
+        except Exception:
             pass
 
 

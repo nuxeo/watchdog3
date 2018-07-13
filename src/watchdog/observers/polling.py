@@ -39,11 +39,22 @@ import os
 import threading
 from functools import partial
 
-from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
-                      DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
-                      FileModifiedEvent, FileMovedEvent)
-from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
-                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+)
+from ..observers.api import (
+    BaseObserver,
+    DEFAULT_EMITTER_TIMEOUT,
+    DEFAULT_OBSERVER_TIMEOUT,
+    EventEmitter,
+)
 from ..utils import stat as default_stat
 from ..utils.dirsnapshot import DirectorySnapshot, DirectorySnapshotDiff
 

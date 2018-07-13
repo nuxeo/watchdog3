@@ -72,12 +72,24 @@ import os
 import threading
 
 from .inotify_buffer import InotifyBuffer
-from ..events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
-                      DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
-                      FileModifiedEvent, FileMovedEvent,
-                      generate_sub_created_events, generate_sub_moved_events)
-from ..observers.api import (BaseObserver, DEFAULT_EMITTER_TIMEOUT,
-                             DEFAULT_OBSERVER_TIMEOUT, EventEmitter)
+from ..events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+    generate_sub_created_events,
+    generate_sub_moved_events,
+)
+from ..observers.api import (
+    BaseObserver,
+    DEFAULT_EMITTER_TIMEOUT,
+    DEFAULT_OBSERVER_TIMEOUT,
+    EventEmitter,
+)
 from ..utils import unicode_paths
 
 
