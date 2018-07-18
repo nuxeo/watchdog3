@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from time import monotonic
+from monotonic import monotonic
 
 from watchdog.utils.delayed_queue import DelayedQueue
 

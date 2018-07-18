@@ -14,7 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import queue
+try:
+    import queue
+except ImportError:
+    import Queue as queue
 from threading import Event
 
 __all__ = ["queue", "Event"]

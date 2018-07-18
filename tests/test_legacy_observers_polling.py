@@ -19,7 +19,6 @@
 
 
 import os
-import queue
 import unittest
 from time import sleep
 
@@ -29,6 +28,7 @@ from watchdog.events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
                              FileModifiedEvent, FileMovedEvent)
 from watchdog.observers.api import ObservedWatch
 from watchdog.observers.polling import PollingEmitter as Emitter
+from watchdog.utils.compat import queue
 
 from .shell import mkdir, mkdtemp, mv, rm, touch
 

@@ -17,12 +17,12 @@
 import os
 import time
 from functools import partial
-from queue import Queue
 
 import pytest
 from watchdog.events import *
 from watchdog.observers.api import ObservedWatch
 from watchdog.utils import platform
+from watchdog.utils.compat import queue as Queue
 from watchdog.utils.unicode_paths import str_cls
 
 from .shell import mkdir, mkdtemp, mv, rm, touch
