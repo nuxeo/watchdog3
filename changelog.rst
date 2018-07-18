@@ -3,6 +3,13 @@
 API changes
 -----------
 
+0.8.5
+~~~~~
+
+- `WATCHDOG-19 <https://jira.nuxeo.com/browse/WATCHDOG-19>`__: Removed ``utils.compat.queue`` and ``utils.compat.Event``,
+   added ``utils.compat.Queue`` and ``utils.compat.Empty``.
+
+
 0.8.4
 ~~~~~
 

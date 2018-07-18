@@ -70,7 +70,7 @@ from ..observers.api import (
     DEFAULT_OBSERVER_TIMEOUT,
     EventEmitter,
 )
-from ..utils.compat import queue
+from ..utils.compat import Queue
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +80,7 @@ class FSEventsQueue(Thread):
 
     def __init__(self, path):
         Thread.__init__(self)
-        self._queue = queue.Queue()
+        self._queue = Queue()
         self._run_loop = None
 
         if isinstance(path, bytes):

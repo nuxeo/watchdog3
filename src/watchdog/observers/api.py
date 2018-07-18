@@ -21,7 +21,7 @@ import threading
 
 from ..utils import BaseThread
 from ..utils.bricks import SkipRepeatsQueue
-from ..utils.compat import queue
+from ..utils.compat import Empty
 
 DEFAULT_EMITTER_TIMEOUT = 1  # in seconds.
 DEFAULT_OBSERVER_TIMEOUT = 1  # in seconds.
@@ -200,7 +200,7 @@ class EventDispatcher(BaseThread):
         while self.should_keep_running():
             try:
                 self.dispatch_events(self.event_queue, self.timeout)
-            except queue.Empty:
+            except Empty:
                 continue
 
 

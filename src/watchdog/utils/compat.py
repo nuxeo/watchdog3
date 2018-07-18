@@ -15,9 +15,8 @@
 # limitations under the License.
 
 try:
-    import queue
+    from queue import Empty, Queue
 except ImportError:
-    import Queue as queue
-from threading import Event
+    from Queue import Empty, Queue
 
-__all__ = ["queue", "Event"]
+__all__ = ("Empty", "Queue")

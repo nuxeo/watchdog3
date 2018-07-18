@@ -26,7 +26,7 @@ import pytest
 from watchdog.events import DirCreatedEvent, DirMovedEvent
 from watchdog.observers.api import ObservedWatch
 from watchdog.utils import platform
-from watchdog.utils.compat import queue
+from watchdog.utils.compat import Empty, Queue
 
 from .shell import mkdir, mkdtemp, mv
 
@@ -44,7 +44,7 @@ if platform.is_windows():
 
     class TestWindowsApiEmitter(unittest.TestCase):
         def setUp(self):
-            self.event_queue = queue.Queue()
+            self.event_queue = Queue()
             self.watch = ObservedWatch(temp_dir, True)
             self.emitter = Emitter(self.event_queue, self.watch, timeout=0.2)
 
@@ -76,7 +76,7 @@ if platform.is_windows():
                 try:
                     event, _ = self.event_queue.get_nowait()
                     got.add(event)
-                except queue.Empty:
+                except Empty:
                     break
 
             print(got)

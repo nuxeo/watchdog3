@@ -7,7 +7,7 @@ import pytest
 from watchdog.events import DirCreatedEvent, DirDeletedEvent, DirModifiedEvent
 from watchdog.observers.api import ObservedWatch
 from watchdog.utils import platform
-from watchdog.utils.compat import queue as Queue
+from watchdog.utils.compat import Queue
 
 from .shell import mkdtemp, rm
 

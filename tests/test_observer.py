@@ -14,10 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from threading import Event
+
 import pytest
 from watchdog.events import FileModifiedEvent, FileSystemEventHandler
 from watchdog.observers.api import BaseObserver, EventEmitter
-from watchdog.utils.compat import Event
 
 
 @pytest.fixture()

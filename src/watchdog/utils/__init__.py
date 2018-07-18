@@ -35,7 +35,6 @@ import os
 import sys
 import threading
 
-from ..utils.compat import Event
 
 stat = os.stat
 
@@ -66,7 +65,7 @@ class BaseThread(threading.Thread):
             self.daemon = True
         else:
             self.setDaemon(True)
-        self._stopped_event = Event()
+        self._stopped_event = threading.Event()
 
         if not has_attribute(self._stopped_event, "is_set"):
             self._stopped_event.is_set = self._stopped_event.isSet

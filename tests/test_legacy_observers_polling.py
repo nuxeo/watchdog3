@@ -28,7 +28,7 @@ from watchdog.events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
                              FileModifiedEvent, FileMovedEvent)
 from watchdog.observers.api import ObservedWatch
 from watchdog.observers.polling import PollingEmitter as Emitter
-from watchdog.utils.compat import queue
+from watchdog.utils.compat import Empty, Queue
 
 from .shell import mkdir, mkdtemp, mv, rm, touch
 
@@ -45,7 +45,7 @@ def p(*args):
 
 class TestPollingEmitter(unittest.TestCase):
     def setUp(self):
-        self.event_queue = queue.Queue()
+        self.event_queue = Queue()
         self.watch = ObservedWatch(temp_dir, True)
         self.emitter = Emitter(self.event_queue, self.watch, timeout=0.2)
 
@@ -111,7 +111,7 @@ class TestPollingEmitter(unittest.TestCase):
             try:
                 event, _ = self.event_queue.get_nowait()
                 got.add(event)
-            except queue.Empty:
+            except Empty:
                 break
 
         self.assertEqual(expected, got)
@@ -136,7 +136,7 @@ class TestPollingEmitter(unittest.TestCase):
             try:
                 event, _ = self.event_queue.get_nowait()
                 got.add(event)
-            except queue.Empty:
+            except Empty:
                 break
 
         self.assertEqual(expected, got)

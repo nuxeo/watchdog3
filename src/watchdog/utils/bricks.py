@@ -44,10 +44,10 @@ try:
 except ImportError:
     from collections import MutableSet
 
-from .compat import queue
+from .compat import Queue
 
 
-class SkipRepeatsQueue(queue.Queue):
+class SkipRepeatsQueue(Queue):
 
     """Thread-safe implementation of an special queue where a
     put of the last-item put'd will be dropped.
@@ -91,12 +91,12 @@ class SkipRepeatsQueue(queue.Queue):
     """
 
     def _init(self, maxsize):
-        queue.Queue._init(self, maxsize)
+        Queue._init(self, maxsize)
         self._last_item = None
 
     def _put(self, item):
         if item != self._last_item:
-            queue.Queue._put(self, item)
+            Queue._put(self, item)
             self._last_item = item
         else:
             # `put` increments `unfinished_tasks` even if we did not put
@@ -104,13 +104,13 @@ class SkipRepeatsQueue(queue.Queue):
             self.unfinished_tasks -= 1
 
     def _get(self):
-        item = queue.Queue._get(self)
+        item = Queue._get(self)
         if item is self._last_item:
             self._last_item = None
         return item
 
 
-class OrderedSetQueue(queue.Queue):
+class OrderedSetQueue(Queue):
 
     """Thread-safe implementation of an ordered set queue.
 
@@ -158,12 +158,12 @@ class OrderedSetQueue(queue.Queue):
     """
 
     def _init(self, maxsize):
-        queue.Queue._init(self, maxsize)
+        Queue._init(self, maxsize)
         self._set_of_items = set()
 
     def _put(self, item):
         if item not in self._set_of_items:
-            queue.Queue._put(self, item)
+            Queue._put(self, item)
             self._set_of_items.add(item)
         else:
             # `put` increments `unfinished_tasks` even if we did not put
@@ -171,7 +171,7 @@ class OrderedSetQueue(queue.Queue):
             self.unfinished_tasks -= 1
 
     def _get(self):
-        item = queue.Queue._get(self)
+        item = Queue._get(self)
         self._set_of_items.remove(item)
         return item
 
