@@ -242,7 +242,7 @@ def test_fast_subdirectory_creation_deletion():
 
 
 def test_passing_unicode_should_give_unicode():
-    start_watching(p(""))
+    start_watching(str_cls(p("")))
     touch(p("a"))
     event = event_queue.get(timeout=5)[0]
     assert isinstance(event.src_path, str_cls)

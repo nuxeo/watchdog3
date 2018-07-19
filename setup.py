@@ -35,7 +35,7 @@ try:
     )
     version = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(version)
-except ImportError:
+except (ImportError, AttributeError):
     import imp
     version = imp.load_source('version', os.path.join(WATCHDOG_PKG_DIR, 'version.py'))
 
@@ -97,8 +97,8 @@ class PyTest(TestCommand):
 tests_require = ["monotonic>=1.5", "pytest", "pytest-cov", "pytest-timeout>=0.3"]
 install_requires = [
     "pathtools3>=0.2.0",
-    'pyobjc-framework-Cocoa>=4.2.2 ; sys.platform == "darwin"',
-    'pyobjc-framework-FSEvents>=4.2.2 ; sys.platform == "darwin"',
+    'pyobjc-framework-Cocoa>=4.2.2 ; sys_platform == "darwin"',
+    'pyobjc-framework-FSEvents>=4.2.2 ; sys_platform == "darwin"',
 ]
 
 with open("README.rst") as f:
