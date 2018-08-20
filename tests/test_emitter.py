@@ -14,15 +14,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
 import os
 import time
 from functools import partial
 
 import pytest
-from watchdog.events import *
+from watchdog.events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+)
 from watchdog.observers.api import ObservedWatch
 from watchdog.utils import platform
-from watchdog.utils.compat import Queue
+from watchdog.utils.compat import Empty, Queue
 from watchdog.utils.unicode_paths import str_cls
 
 from .shell import mkdir, mkdtemp, mv, rm, touch
@@ -151,7 +160,7 @@ def test_move_to_full():
     event = event_queue.get(timeout=5)[0]
     assert isinstance(event, FileMovedEvent)
     assert event.dest_path == p("dir2", "b")
-    assert event.src_path == None  # Should equal none since the path was not watched
+    assert event.src_path is None  # Should equal none since the path was not watched
 
 
 def test_move_from():
@@ -175,7 +184,7 @@ def test_move_from_full():
     event = event_queue.get(timeout=5)[0]
     assert isinstance(event, FileMovedEvent)
     assert event.src_path == p("dir1", "a")
-    assert event.dest_path == None  # Should equal None since path not watched
+    assert event.dest_path is None  # Should equal None since path not watched
 
 
 def test_separate_consecutive_moves():
@@ -201,12 +210,12 @@ def test_separate_consecutive_moves():
     assert isinstance(event_queue.get(timeout=5)[0], DirModifiedEvent)
 
 
-@pytest.mark.skipif(platform.is_linux(), reason="bug. inotify will deadlock")
 def test_delete_self():
     mkdir(p("dir1"))
     start_watching(p("dir1"))
     rm(p("dir1"), True)
-    event_queue.get(timeout=5)[0]
+    with pytest.raises(Empty):
+        event_queue.get(timeout=5)[0]
 
 
 def test_fast_subdirectory_creation_deletion():
@@ -215,7 +224,7 @@ def test_fast_subdirectory_creation_deletion():
     times = 30
     mkdir(root_dir)
     start_watching(root_dir)
-    for unused in range(times):
+    for _ in range(times):
         mkdir(sub_dir)
         rm(sub_dir, True)
     count = {DirCreatedEvent: 0, DirModifiedEvent: 0, DirDeletedEvent: 0}
@@ -224,7 +233,7 @@ def test_fast_subdirectory_creation_deletion():
         DirModifiedEvent: root_dir,
         DirDeletedEvent: sub_dir,
     }
-    for unused in range(times * 4):
+    for _ in range(times * 4):
         event = event_queue.get(timeout=5)[0]
         logger.debug(event)
         etype = type(event)
