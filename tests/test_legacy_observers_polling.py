@@ -23,9 +23,16 @@ import unittest
 from time import sleep
 
 import pytest
-from watchdog.events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
-                             DirMovedEvent, FileCreatedEvent, FileDeletedEvent,
-                             FileModifiedEvent, FileMovedEvent)
+from watchdog.events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+)
 from watchdog.observers.api import ObservedWatch
 from watchdog.observers.polling import PollingEmitter as Emitter
 from watchdog.utils.compat import Empty, Queue

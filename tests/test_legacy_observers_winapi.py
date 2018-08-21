@@ -51,7 +51,7 @@ if platform.is_windows():
         def teardown(self):
             pass
 
-        @pytest.mark.skip('WATCHDOG-9')
+        @pytest.mark.skip("WATCHDOG-9")
         def test___init__(self):
             SLEEP_TIME = 1
             self.emitter.start()

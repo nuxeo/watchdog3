@@ -30,6 +30,7 @@ WATCHDOG_PKG_DIR = os.path.join(SRC_DIR, "watchdog")
 
 try:
     import importlib.util
+
     spec = importlib.util.spec_from_file_location(
         "version", os.path.join(WATCHDOG_PKG_DIR, "version.py")
     )
@@ -37,7 +38,8 @@ try:
     spec.loader.exec_module(version)
 except (ImportError, AttributeError):
     import imp
-    version = imp.load_source('version', os.path.join(WATCHDOG_PKG_DIR, 'version.py'))
+
+    version = imp.load_source("version", os.path.join(WATCHDOG_PKG_DIR, "version.py"))
 
 ext_modules = []
 if get_platform().startswith("macosx"):
@@ -94,7 +96,12 @@ class PyTest(TestCommand):
         sys.exit(errno)
 
 
-tests_require = ["monotonic>=1.5 ; python_version < '3'", "pytest", "pytest-cov", "pytest-timeout>=0.3"]
+tests_require = [
+    "monotonic>=1.5 ; python_version < '3'",
+    "pytest",
+    "pytest-cov",
+    "pytest-timeout>=0.3",
+]
 install_requires = [
     "pathtools3>=0.2.0",
     'pyobjc-framework-Cocoa>=4.2.2 ; sys_platform == "darwin"',

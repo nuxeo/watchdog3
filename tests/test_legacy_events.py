@@ -21,14 +21,24 @@
 import unittest
 
 from pathtools.patterns import filter_paths
-from watchdog.events import (DirCreatedEvent, DirDeletedEvent, DirModifiedEvent,
-                             DirMovedEvent, EVENT_TYPE_CREATED,
-                             EVENT_TYPE_DELETED, EVENT_TYPE_MODIFIED,
-                             EVENT_TYPE_MOVED, FileCreatedEvent,
-                             FileDeletedEvent, FileModifiedEvent,
-                             FileMovedEvent, FileSystemEventHandler,
-                             LoggingEventHandler, PatternMatchingEventHandler,
-                             RegexMatchingEventHandler)
+from watchdog.events import (
+    DirCreatedEvent,
+    DirDeletedEvent,
+    DirModifiedEvent,
+    DirMovedEvent,
+    EVENT_TYPE_CREATED,
+    EVENT_TYPE_DELETED,
+    EVENT_TYPE_MODIFIED,
+    EVENT_TYPE_MOVED,
+    FileCreatedEvent,
+    FileDeletedEvent,
+    FileModifiedEvent,
+    FileMovedEvent,
+    FileSystemEventHandler,
+    LoggingEventHandler,
+    PatternMatchingEventHandler,
+    RegexMatchingEventHandler,
+)
 from watchdog.utils import has_attribute
 
 path_1 = "/path/xyz"

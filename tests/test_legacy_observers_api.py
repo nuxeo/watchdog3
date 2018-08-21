@@ -21,8 +21,13 @@ import time
 import unittest
 
 from watchdog.events import FileModifiedEvent, LoggingEventHandler
-from watchdog.observers.api import (BaseObserver, EventDispatcher, EventEmitter,
-                                    EventQueue, ObservedWatch)
+from watchdog.observers.api import (
+    BaseObserver,
+    EventDispatcher,
+    EventEmitter,
+    EventQueue,
+    ObservedWatch,
+)
 
 
 class TestObservedWatch(unittest.TestCase):

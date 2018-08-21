@@ -43,7 +43,7 @@ if platform.is_linux():
     from watchdog.observers.inotify import InotifyEmitter as Emitter
     from watchdog.observers.inotify import InotifyFullEmitter
 elif platform.is_darwin():
-    pytestmark = pytest.mark.skip('WATCHDOG-8')
+    pytestmark = pytest.mark.skip("WATCHDOG-8")
     from watchdog.observers.fsevents2 import FSEventsEmitter as Emitter
 
 logging.basicConfig(level=logging.DEBUG)
