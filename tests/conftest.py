@@ -23,6 +23,26 @@ import pytest
 from .shell import mkdtemp, rm
 
 
+@pytest.fixture(autouse=True)
+def no_warnings(recwarn):
+    yield
+    warnings = []
+    for warning in recwarn:  # pragma: no cover
+        message = str(warning.message)
+        # ImportWarning: Not importing directory '...' missing __init__(.py)
+        if not (
+            isinstance(warning.message, ImportWarning)
+            and message.startswith('Not importing directory ')
+            and ' missing __init__' in message
+        ):
+            warnings.append('{}:{} {}'.format(
+                warning.filename,
+                warning.lineno,
+                message,
+            ))
+    assert not warnings
+
+
 @pytest.fixture()
 def tmpdir(request):
     path = os.path.realpath(mkdtemp())
