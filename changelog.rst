@@ -8,6 +8,7 @@ API changes
 
 - `WATCHDOG-19 <https://jira.nuxeo.com/browse/WATCHDOG-19>`__: Removed ``utils.compat.queue`` and ``utils.compat.Event``,
    added ``utils.compat.Queue`` and ``utils.compat.Empty``.
+- `WATCHDOG-22 <https://jira.nuxeo.com/browse/WATCHDOG-22>`__: Allow to call ``FSEventsEmitter.stop()`` twice without error on macOS
 
 
 0.8.4

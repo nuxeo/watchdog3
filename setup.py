@@ -103,7 +103,7 @@ tests_require = [
     "pytest-timeout>=0.3",
 ]
 install_requires = [
-    "pathtools3>=0.2.0",
+    "pathtools3>=0.2.1",
     'pyobjc-framework-Cocoa>=4.2.2 ; sys_platform == "darwin"',
     'pyobjc-framework-FSEvents>=4.2.2 ; sys_platform == "darwin"',
 ]

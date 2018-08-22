@@ -4,7 +4,7 @@
 .. |author_email| replace:: maintainers-python@nuxeo.com
 .. |copyright| replace:: Copyright 2018 Nuxeo.
 .. |project_name| replace:: ``watchdog3``
-.. |project_version| replace:: 0.8.4
+.. |project_version| replace:: 0.8.5
 
 .. _issue tracker: https://github.com/nuxeo/watchdog3/issues
 .. _code repository: https://github.com/nuxeo/watchdog3
