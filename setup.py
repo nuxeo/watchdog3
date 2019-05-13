@@ -108,7 +108,7 @@ install_requires = [
     'pyobjc-framework-FSEvents>=4.2.2 ; sys_platform == "darwin"',
 ]
 
-with open("README.rst") as f:
+with open("README.md") as f:
     readme = f.read()
 
 with open("changelog.rst") as f:
